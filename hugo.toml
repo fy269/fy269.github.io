@@ -1,0 +1,4 @@
+baseURL = "https://dikmenugur.com/"
+languageCode = "de-de"
+title = "Ugur Dikmen – Praktikum Systemintegration"
+disableKinds = ["taxonomy","term"]

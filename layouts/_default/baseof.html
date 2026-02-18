@@ -1,0 +1,12 @@
+<!doctype html><html lang="de"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ .Title }} · {{ site.Title }}</title>
+<link rel="stylesheet" href="/css/main.css">
+</head><body>
+<nav style="padding:16px;border-bottom:1px solid #eee;max-width:900px;margin:0 auto;">
+<a href="/">Start</a> · <a href="/praktikum/">Praktikum</a> · <a href="/projekte/">Projekte</a> · <a href="/kontakt/">Kontakt</a>
+</nav>
+<main style="max-width:900px;margin:0 auto;padding:16px;">
+{{ block "main" . }}{{ end }}
+</main>
+</body></html>
