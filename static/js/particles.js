@@ -196,3 +196,4 @@
   raf = requestAnimationFrame(tick);
   window.addEventListener("beforeunload", () => cancelAnimationFrame(raf));
 })();
+
