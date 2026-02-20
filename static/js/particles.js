@@ -1,246 +1,198 @@
 (() => {
   const canvas = document.getElementById("hero-canvas");
   if (!canvas) return;
-
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   const ctx = canvas.getContext("2d");
 
-  // Farben aus CSS-Variablen ziehen
-  const css = getComputedStyle(document.documentElement);
-  const ACCENT = css.getPropertyValue("--accent").trim() || "#51a2e9";
+  const css     = getComputedStyle(document.documentElement);
+  const ACCENT  = css.getPropertyValue("--accent").trim()  || "#51a2e9";
   const ACCENT2 = css.getPropertyValue("--accent2").trim() || "#ff4d5a";
 
-  // ---- TUNING (wenn du es noch stärker willst) ----
-  const SETTINGS = {
-    // mehr Partikel -> dichteres Netz
-    density: 9500,          // kleiner = mehr Partikel (z.B. 8000 dichter, 12000 dünner)
-    maxDots: 520,           // Obergrenze
+  // ── Einstellungen ─────────────────────────────────────────────────────────
+  const S = {
+    density:       4500,   // ↓ kleiner = mehr Partikel (war 8000)
+    maxDots:       380,    // ↑ mehr Partikel (war 200)
 
-    // Verbindung
-    linkDist: 115,          // größer = mehr Linien
-    baseLineWidth: 0.9,     // dicker
-    minAlpha: 0.18,         // Linien nie zu "unsichtbar"
-    maxAlpha: 0.95,         // maximale Intensität
+    linkDist:      130,
+    mouseRadius:   220,
 
-    // Maus-Effekt
-    mouseRadius: 360,       // größer = stärkere Maus-"Blase"
-    mouseBoost: 0.55,       // mehr = kräftiger bei Maus
+    dotMinR:       1.2,
+    dotMaxR:       2.8,
+    dotAlpha:      0.55,
 
-    // Bewegung
-    speed: 0.42,            // Grundgeschwindigkeit
-    jitter: 0.18,           // Micro-Noise (lebendiger)
-    dotMinR: 1.0,
-    dotMaxR: 2.6,
+    lineWidth:     0.9,
+    lineMinAlpha:  0.0,
+    lineMaxAlpha:  0.75,
 
-    // Performance
-    fpsCap: 60,             // 60 oder 45, wenn du es sparsamer willst
+    mouseLineWidth:  1.1,
+    mouseLineAlpha:  0.90,
+
+    speed:    0.25,
+    jitter:   0.08,
+    maxSpeed: 0.6,
+
+    fpsCap:   60,
   };
-  // -----------------------------------------------
 
-  let w = 0, h = 0, dpr = 1;
-  let dots = [];
-  let raf = 0;
-  let last = 0;
-
-  const mouse = { x: -99999, y: -99999, active: false };
-
-  function hexToRgba(hex, a) {
+  // ── Farb-Cache ────────────────────────────────────────────────────────────
+  function hexToRgb(hex) {
     const h = hex.replace("#", "");
-    const full = h.length === 3 ? h.split("").map(c => c + c).join("") : h;
-    const n = parseInt(full, 16);
-    const r = (n >> 16) & 255;
-    const g = (n >> 8) & 255;
-    const b = n & 255;
-    return `rgba(${r},${g},${b},${a})`;
+    const s = h.length === 3 ? h.split("").map(c => c+c).join("") : h;
+    const n = parseInt(s, 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
   }
 
+  const [ar, ag, ab] = hexToRgb(ACCENT);
+  const [r2, g2, b2] = hexToRgb(ACCENT2);
+
+  function rgba(r, g, b, a) {
+    return `rgba(${r},${g},${b},${a.toFixed(3)})`;
+  }
+
+  // ── State ─────────────────────────────────────────────────────────────────
+  let w = 0, h = 0;
+  let dots = [];
+  let raf = 0, last = 0;
+  const mouse = { x: -99999, y: -99999, active: false };
+
+  // ── Resize ────────────────────────────────────────────────────────────────
   function resize() {
     const rect = canvas.getBoundingClientRect();
     w = Math.max(1, Math.floor(rect.width));
     h = Math.max(1, Math.floor(rect.height));
 
-    dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1)); // cap = 2 (perf)
-    canvas.width = Math.floor(w * dpr);
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width  = Math.floor(w * dpr);
     canvas.height = Math.floor(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    const area = w * h;
-    const count = Math.min(SETTINGS.maxDots, Math.max(160, Math.floor(area / SETTINGS.density)));
-
-    dots = Array.from({ length: count }, () => {
-      const c = Math.random() < 0.86 ? ACCENT : ACCENT2;
-      return {
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * SETTINGS.speed,
-        vy: (Math.random() - 0.5) * SETTINGS.speed,
-        r: SETTINGS.dotMinR + Math.random() * (SETTINGS.dotMaxR - SETTINGS.dotMinR),
-        c,
-        // kleine Individualität
-        n: Math.random() * Math.PI * 2
-      };
-    });
+    const count = Math.min(S.maxDots, Math.max(120, Math.floor((w * h) / S.density)));
+    dots = Array.from({ length: count }, () => ({
+      x:  Math.random() * w,
+      y:  Math.random() * h,
+      vx: (Math.random() - 0.5) * S.speed,
+      vy: (Math.random() - 0.5) * S.speed,
+      r:  S.dotMinR + Math.random() * (S.dotMaxR - S.dotMinR),
+      c:  Math.random() < 0.88 ? 0 : 1,
+      n:  Math.random() * Math.PI * 2,
+    }));
   }
 
-  // Grid Hashing: nur Nachbarzellen prüfen
-  function buildGrid(cellSize) {
-    const cols = Math.ceil(w / cellSize);
-    const rows = Math.ceil(h / cellSize);
-    const grid = new Map();
-
-    function key(cx, cy) {
-      return cx + "," + cy;
-    }
-
-    for (let i = 0; i < dots.length; i++) {
-      const d = dots[i];
-      const cx = Math.floor(d.x / cellSize);
-      const cy = Math.floor(d.y / cellSize);
-      const k = key(cx, cy);
-      if (!grid.has(k)) grid.set(k, []);
-      grid.get(k).push(i);
-    }
-
-    return { grid, cols, rows, cellSize, key };
-  }
-
-  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
-
+  // ── Tick ──────────────────────────────────────────────────────────────────
   function tick(ts) {
     raf = requestAnimationFrame(tick);
 
-    // FPS cap
-    const minFrame = 1000 / SETTINGS.fpsCap;
-    if (ts - last < minFrame) return;
-    last = ts;
+    const minF = 1000 / S.fpsCap;
+    if (ts - last < minF) return;
+    last += minF;
+    if (ts - last > minF * 5) last = ts;
 
     ctx.clearRect(0, 0, w, h);
 
-    // Update positions + tiny noise
-    for (const d of dots) {
-      d.n += 0.02;
-      d.vx += (Math.cos(d.n) * SETTINGS.jitter) * 0.01;
-      d.vy += (Math.sin(d.n) * SETTINGS.jitter) * 0.01;
+    const mx2 = S.mouseRadius * S.mouseRadius;
+    const ld2 = S.linkDist * S.linkDist;
 
-      // Mouse "pull" subtle
-      if (mouse.active) {
-        const dxm = mouse.x - d.x;
-        const dym = mouse.y - d.y;
-        const md = Math.hypot(dxm, dym);
-        if (md < SETTINGS.mouseRadius) {
-          const f = (1 - md / SETTINGS.mouseRadius) * 0.015;
-          d.vx += dxm * f * 0.03;
-          d.vy += dym * f * 0.03;
-        }
+    const proximity = new Float32Array(dots.length);
+    if (mouse.active) {
+      for (let i = 0; i < dots.length; i++) {
+        const d  = dots[i];
+        const dx = d.x - mouse.x;
+        const dy = d.y - mouse.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < mx2) proximity[i] = 1 - Math.sqrt(d2) / S.mouseRadius;
       }
+    }
 
-      d.x += d.vx;
-      d.y += d.vy;
+    // ── 1. Partikel bewegen & zeichnen ────────────────────────────────────
+    for (let i = 0; i < dots.length; i++) {
+      const d = dots[i];
+      d.n  += 0.015;
+      d.vx += Math.cos(d.n) * S.jitter * 0.006;
+      d.vy += Math.sin(d.n) * S.jitter * 0.006;
 
-      // Bounce
-      if (d.x < 0) { d.x = 0; d.vx *= -1; }
-      if (d.x > w) { d.x = w; d.vx *= -1; }
-      if (d.y < 0) { d.y = 0; d.vy *= -1; }
-      if (d.y > h) { d.y = h; d.vy *= -1; }
+      const sp = Math.hypot(d.vx, d.vy);
+      if (sp > S.maxSpeed) { d.vx = (d.vx / sp) * S.maxSpeed; d.vy = (d.vy / sp) * S.maxSpeed; }
 
-      // Draw dot (slightly stronger)
+      d.x += d.vx; d.y += d.vy;
+      if (d.x < 0)  { d.x = 0;  d.vx =  Math.abs(d.vx); }
+      if (d.x > w)  { d.x = w;  d.vx = -Math.abs(d.vx); }
+      if (d.y < 0)  { d.y = 0;  d.vy =  Math.abs(d.vy); }
+      if (d.y > h)  { d.y = h;  d.vy = -Math.abs(d.vy); }
+
+      const pAlpha = S.dotAlpha + proximity[i] * (1 - S.dotAlpha);
       ctx.beginPath();
       ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-      ctx.fillStyle = hexToRgba(d.c, 0.95);
+      ctx.fillStyle = d.c === 0
+        ? rgba(ar, ag, ab, pAlpha)
+        : rgba(r2, g2, b2, pAlpha);
       ctx.fill();
     }
 
-    // Draw lines
-    const { grid, cellSize, key } = buildGrid(SETTINGS.linkDist);
+    // ── 2. Partikel–Partikel Linien (nur nahe der Maus) ───────────────────
+    ctx.lineWidth = S.lineWidth;
+    for (let i = 0; i < dots.length; i++) {
+      const a  = dots[i];
+      const pi = proximity[i];
+      for (let j = i + 1; j < dots.length; j++) {
+        const b  = dots[j];
+        const p  = Math.max(pi, proximity[j]);
+        if (p <= 0) continue;
 
-    const linkDist = SETTINGS.linkDist;
-    const linkDist2 = linkDist * linkDist;
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 >= ld2) continue;
 
-    const mouseR = SETTINGS.mouseRadius;
-    const mouseR2 = mouseR * mouseR;
+        const alpha = (S.lineMaxAlpha * (1 - d2 / ld2)) * p;
+        ctx.strokeStyle = rgba(ar, ag, ab, alpha);
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+    }
 
-    // For each cell, compare with neighbors (9 cells)
-    for (let cx = 0; cx <= Math.ceil(w / cellSize); cx++) {
-      for (let cy = 0; cy <= Math.ceil(h / cellSize); cy++) {
-        const base = grid.get(key(cx, cy));
-        if (!base) continue;
-
-        for (let nx = cx - 1; nx <= cx + 1; nx++) {
-          for (let ny = cy - 1; ny <= cy + 1; ny++) {
-            const neigh = grid.get(key(nx, ny));
-            if (!neigh) continue;
-
-            for (let i = 0; i < base.length; i++) {
-              const a = dots[base[i]];
-              for (let j = 0; j < neigh.length; j++) {
-                const bi = neigh[j];
-                // avoid duplicates when same cell neighborhood
-                if (base === neigh && base[i] >= bi) continue;
-
-                const b = dots[bi];
-                const dx = a.x - b.x;
-                const dy = a.y - b.y;
-                const d2 = dx * dx + dy * dy;
-                if (d2 > linkDist2) continue;
-
-                // base alpha by distance
-                let t = 1 - (d2 / linkDist2);
-                // make lines more visible overall
-                let alpha = SETTINGS.minAlpha + (SETTINGS.maxAlpha - SETTINGS.minAlpha) * (t * t);
-
-                // mouse boost if both are near mouse
-                if (mouse.active) {
-                  const ax = a.x - mouse.x, ay = a.y - mouse.y;
-                  const bx = b.x - mouse.x, by = b.y - mouse.y;
-                  const am2 = ax*ax + ay*ay;
-                  const bm2 = bx*bx + by*by;
-                  if (am2 < mouseR2 || bm2 < mouseR2) {
-                    const mm = 1 - (Math.min(am2, bm2) / mouseR2);
-                    alpha = clamp(alpha + mm * SETTINGS.mouseBoost, SETTINGS.minAlpha, 1);
-                  }
-                }
-
-                ctx.lineWidth = SETTINGS.baseLineWidth;
-                ctx.strokeStyle = hexToRgba(ACCENT, alpha);
-                ctx.beginPath();
-                ctx.moveTo(a.x, a.y);
-                ctx.lineTo(b.x, b.y);
-                ctx.stroke();
-              }
-            }
-          }
-        }
+    // ── 3. Maus → Partikel Linien ─────────────────────────────────────────
+    if (mouse.active) {
+      ctx.lineWidth = S.mouseLineWidth;
+      for (let i = 0; i < dots.length; i++) {
+        const p = proximity[i];
+        if (p <= 0) continue;
+        const d = dots[i];
+        ctx.strokeStyle = rgba(ar, ag, ab, p * p * S.mouseLineAlpha);
+        ctx.beginPath();
+        ctx.moveTo(d.x, d.y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
       }
     }
   }
 
-  function toLocal(e) {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
+  // ── Events ────────────────────────────────────────────────────────────────
+  function toLocal(clientX, clientY) {
+    const rect   = canvas.getBoundingClientRect();
+    mouse.x      = clientX - rect.left;
+    mouse.y      = clientY - rect.top;
     mouse.active = true;
   }
 
-  window.addEventListener("mousemove", toLocal, { passive: true });
-  window.addEventListener("touchmove", (e) => {
-    if (!e.touches || !e.touches[0]) return;
-    const t = e.touches[0];
-    toLocal({ clientX: t.clientX, clientY: t.clientY });
+  window.addEventListener("mousemove",  e => toLocal(e.clientX, e.clientY), { passive: true });
+  window.addEventListener("touchmove",  e => {
+    if (e.touches?.[0]) toLocal(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: true });
-
   window.addEventListener("mouseleave", () => {
     mouse.active = false;
-    mouse.x = -99999;
-    mouse.y = -99999;
+    mouse.x = mouse.y = -99999;
   });
 
-  window.addEventListener("resize", resize);
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 80);
+  });
 
   resize();
   raf = requestAnimationFrame(tick);
-
-  // cleanup on page unload
   window.addEventListener("beforeunload", () => cancelAnimationFrame(raf));
 })();
