@@ -117,10 +117,34 @@ h1{margin:0 0 12px; font-size:clamp(36px,5vw,64px); line-height:1.05}
 .card-actions{margin-top:12px; display:flex; gap:10px}
 
 .footer{
-  max-width:980px; margin:0 auto; padding:30px 22px 60px;
+  max-width:980px;
+  margin:0 auto;
+  padding:30px 22px 60px;
   color:var(--muted);
   border-top:1px solid var(--border);
 }
+
+.footer-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap; /* mobile freundlich */
+}
+
+.footer-left{ color: var(--muted); }
+
+.footer-links{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.footer a{ color: var(--muted); }
+.footer a:hover{ color: var(--accent); }
+
+.footer-sep{ opacity:.6; }
 
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
