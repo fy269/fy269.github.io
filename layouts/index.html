@@ -1,0 +1,113 @@
+{{ define "main" }}
+
+<header class="topnav">
+  <a class="brand" href="#top">Ugur</a>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projekte</a>
+    <a href="#contact">Kontakt</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+    <div class="hero-inner">
+      <p class="eyebrow">Praktikum gesucht · Fachinformatiker Systemintegration (Umschulung)</p>
+
+      <h1>Hi, ich bin <span class="accent">Ugur</span>.<br>Ich baue stabile IT-Infrastruktur.</h1>
+
+      <p class="lead">
+        Fokus: Linux/Windows, Netzwerke, Virtualisierung (Proxmox), Docker,
+        saubere Dokumentation & Automatisierung.
+      </p>
+
+      <div class="cta">
+        <a class="btn primary" href="#projects">Projekte ansehen →</a>
+        <a class="btn" href="mailto:DEINE_MAIL">Kontakt</a>
+        <a class="btn ghost" href="/assets/cv.pdf">Lebenslauf (PDF)</a>
+      </div>
+
+      <div class="links">
+        <a href="https://github.com/fy269" target="_blank" rel="noreferrer">GitHub</a>
+        <span>·</span>
+        <a href="#about">Über mich</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <h2>About</h2>
+    <div class="two-col">
+      <p>
+        Ich mache aktuell eine Umschulung zum Fachinformatiker Systemintegration und suche ein Praktikum.
+        Ich arbeite strukturiert: reproduzierbare Setups, saubere README-Doku, Troubleshooting, Security-Basics.
+      </p>
+      <p class="muted">
+        Stärke: Betrieb & Integration (DNS/TLS/Deploy/Monitoring) – nicht nur „Baukasten“.
+      </p>
+    </div>
+  </section>
+
+  <section id="skills" class="section">
+    <h2>Skills</h2>
+    <div class="grid">
+      <div class="chip">Linux</div>
+      <div class="chip">Windows</div>
+      <div class="chip">Netzwerk (DNS/DHCP/VLAN)</div>
+      <div class="chip">Proxmox/Virtualisierung</div>
+      <div class="chip">Docker</div>
+      <div class="chip">Git</div>
+      <div class="chip">Bash / PowerShell</div>
+      <div class="chip">Backup/Restore</div>
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <h2>Projekte</h2>
+
+    <div class="cards">
+      <article class="card">
+        <h3>Home-Lab Infrastruktur</h3>
+        <p class="muted">Virtualisierung + Netzwerke + Storage, reproduzierbar dokumentiert.</p>
+        <div class="meta">Proxmox · VLAN · NFS/TrueNAS · Backups</div>
+        <div class="card-actions">
+          <a class="btn small" href="https://github.com/fy269/DEINREPO" target="_blank" rel="noreferrer">Doku/Code</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Linux Administration</h3>
+        <p class="muted">SSH, Users/Sudo, Services, Troubleshooting.</p>
+        <div class="meta">Debian · SSH · Systemd · Rechte</div>
+        <div class="card-actions">
+          <a class="btn small" href="https://github.com/fy269/DEINREPO2" target="_blank" rel="noreferrer">Doku/Code</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Ops / Monitoring</h3>
+        <p class="muted">Verfügbarkeit überwachen + Alerts.</p>
+        <div class="meta">Uptime-Kuma · Alerts · Logs</div>
+        <div class="card-actions">
+          <a class="btn small" href="https://github.com/fy269/DEINREPO3" target="_blank" rel="noreferrer">Doku/Code</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <h2>Kontakt</h2>
+    <p class="muted">
+      E-Mail: <a href="mailto:DEINE_MAIL">DEINE_MAIL</a>
+    </p>
+  </section>
+
+  <footer class="footer">
+    <span>© {{ now.Format "2006" }} Ugur Dikmen</span>
+  </footer>
+</main>
+
+{{ end }}
