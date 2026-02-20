@@ -1,264 +1,242 @@
 (() => {
   const canvas = document.getElementById("hero-canvas");
   if (!canvas) return;
-
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   const ctx = canvas.getContext("2d");
 
-  // ── CSS-Variablen auslesen ──────────────────────────────────────────────
-  const css    = getComputedStyle(document.documentElement);
-  const ACCENT = css.getPropertyValue("--accent").trim()  || "#51a2e9";
-  const ACCENT2= css.getPropertyValue("--accent2").trim() || "#ff4d5a";
+  const css     = getComputedStyle(document.documentElement);
+  const ACCENT  = css.getPropertyValue("--accent").trim()  || "#51a2e9";
+  const ACCENT2 = css.getPropertyValue("--accent2").trim() || "#ff4d5a";
 
-  // ── Einstellungen ───────────────────────────────────────────────────────
+  // Mobil erkennen (kein echter Mauszeiger)
+  const isMobile = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
+  // ── Einstellungen ─────────────────────────────────────────────────────────
   const S = {
-    density:      9500,   // kleiner = mehr Partikel
-    maxDots:      480,
-    linkDist:     115,
-    baseLineWidth: 0.85,
-    minAlpha:     0.08,
-    maxAlpha:     0.90,
-    mouseRadius:  300,
-    mouseBoost:   0.45,
-    speed:        0.38,
-    jitter:       0.15,
-    dotMinR:      1.0,
-    dotMaxR:      2.4,
-    maxSpeed:     1.2,    // ← NEU: verhindert unkontrolliertes Beschleunigen
-    fpsCap:       60,
-    // Alpha-Stufen fürs Batching: weniger = schneller, mehr = weicher
-    alphaBuckets: 24,
+    density:      isMobile ? 9000  : 4500,  // weniger Partikel auf Mobile
+    maxDots:      isMobile ? 120   : 380,
+
+    linkDist:     130,
+    mouseRadius:  isMobile ? 160   : 220,   // kleinerer Cluster auf Mobile
+
+    dotMinR:      1.2,
+    dotMaxR:      2.8,
+    dotAlpha:     0.55,
+
+    lineWidth:       0.9,
+    lineMaxAlpha:    0.75,
+    mouseLineWidth:  1.1,
+    mouseLineAlpha:  0.90,
+
+    speed:    0.25,
+    jitter:   0.08,
+    maxSpeed: 0.6,
+
+    fpsCap: isMobile ? 45 : 60,   // auf Mobile etwas sparsamer
+
+    // Auto-Drift (nur Mobile): wie schnell der virtuelle Cursor wandert
+    driftSpeed: 0.4,
   };
 
-  // ── Farb-Cache (verhindert String-Erzeugung im Hot Loop) ────────────────
+  // ── Farben ────────────────────────────────────────────────────────────────
   function hexToRgb(hex) {
     const h = hex.replace("#", "");
-    const s = h.length === 3 ? h.split("").map(c => c + c).join("") : h;
+    const s = h.length === 3 ? h.split("").map(c => c+c).join("") : h;
     const n = parseInt(s, 16);
     return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
   }
 
   const [ar, ag, ab] = hexToRgb(ACCENT);
+  const [r2, g2, b2] = hexToRgb(ACCENT2);
 
-  // Alle Alpha-Strings vorberechnen
-  const alphaCache = Array.from({ length: S.alphaBuckets + 1 }, (_, i) => {
-    const a = (i / S.alphaBuckets).toFixed(3);
-    return `rgba(${ar},${ag},${ab},${a})`;
-  });
-
-  function cachedAlpha(alpha) {
-    const i = Math.round(alpha * S.alphaBuckets);
-    return alphaCache[Math.max(0, Math.min(S.alphaBuckets, i))];
+  function rgba(r, g, b, a) {
+    return `rgba(${r},${g},${b},${a.toFixed(3)})`;
   }
 
-  // ── State ───────────────────────────────────────────────────────────────
-  let w = 0, h = 0, dpr = 1;
+  // ── State ─────────────────────────────────────────────────────────────────
+  let w = 0, h = 0;
   let dots = [];
-  let raf  = 0;
-  let last = 0;
+  let raf = 0, last = 0;
 
+  // Desktop: echter Mauszeiger
   const mouse = { x: -99999, y: -99999, active: false };
 
-  // ── Resize ──────────────────────────────────────────────────────────────
+  // Mobile: virtueller Cursor der automatisch driftet
+  const drift = {
+    x: 0, y: 0,       // aktuelle Position
+    tx: 0, ty: 0,     // Zielposition
+    t: 0,             // Noise-Timer
+  };
+
+  // ── Resize ────────────────────────────────────────────────────────────────
   function resize() {
     const rect = canvas.getBoundingClientRect();
     w = Math.max(1, Math.floor(rect.width));
     h = Math.max(1, Math.floor(rect.height));
-    dpr = Math.min(2, window.devicePixelRatio || 1);
 
+    const dpr = Math.min(isMobile ? 1.5 : 2, window.devicePixelRatio || 1);
     canvas.width  = Math.floor(w * dpr);
     canvas.height = Math.floor(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    const count = Math.min(S.maxDots, Math.max(120, Math.floor((w * h) / S.density)));
-
+    const count = Math.min(S.maxDots, Math.max(60, Math.floor((w * h) / S.density)));
     dots = Array.from({ length: count }, () => ({
       x:  Math.random() * w,
       y:  Math.random() * h,
       vx: (Math.random() - 0.5) * S.speed,
       vy: (Math.random() - 0.5) * S.speed,
       r:  S.dotMinR + Math.random() * (S.dotMaxR - S.dotMinR),
-      c:  Math.random() < 0.86 ? ACCENT : ACCENT2,
+      c:  Math.random() < 0.88 ? 0 : 1,
       n:  Math.random() * Math.PI * 2,
     }));
-  }
 
-  // ── Grid-Hashing ─────────────────────────────────────────────────────────
-  function buildGrid(cellSize) {
-    const grid = new Map();
-    for (let i = 0; i < dots.length; i++) {
-      const d  = dots[i];
-      const cx = Math.floor(d.x / cellSize);
-      const cy = Math.floor(d.y / cellSize);
-      const k  = `${cx},${cy}`;
-      let cell = grid.get(k);
-      if (!cell) { cell = []; grid.set(k, cell); }
-      cell.push(i);
+    // Drift-Start mittig setzen
+    if (isMobile) {
+      drift.x = w * 0.5;
+      drift.y = h * 0.4;
+      drift.tx = drift.x;
+      drift.ty = drift.y;
     }
-    return grid;
   }
 
-  // ── Haupt-Loop ───────────────────────────────────────────────────────────
+  // ── Auto-Drift Logik (Mobile) ─────────────────────────────────────────────
+  // Lissajous-ähnliche Kurve: wandert organisch über den Canvas
+  function updateDrift() {
+    drift.t += 0.004;
+
+    // Sanft ein neues Ziel ansteuern alle paar Sekunden
+    drift.tx = w  * (0.25 + 0.50 * (0.5 + 0.5 * Math.sin(drift.t * 1.3)));
+    drift.ty = h  * (0.20 + 0.55 * (0.5 + 0.5 * Math.sin(drift.t * 0.9 + 1.2)));
+
+    // Träges Folgen zum Ziel (Lerp)
+    drift.x += (drift.tx - drift.x) * 0.012;
+    drift.y += (drift.ty - drift.y) * 0.012;
+  }
+
+  // ── Tick ──────────────────────────────────────────────────────────────────
   function tick(ts) {
     raf = requestAnimationFrame(tick);
 
-    const minFrame = 1000 / S.fpsCap;
-    if (ts - last < minFrame) return;
-    // FIX: last += minFrame statt last = ts → gleichmäßiger Rhythmus
-    last += minFrame;
-    if (ts - last > minFrame * 4) last = ts; // Reset nach Tab-Pause
+    const minF = 1000 / S.fpsCap;
+    if (ts - last < minF) return;
+    last += minF;
+    if (ts - last > minF * 5) last = ts;
 
     ctx.clearRect(0, 0, w, h);
 
-    // ── 1. Partikel bewegen & zeichnen ───────────────────────────────────
-    for (const d of dots) {
-      // Sanftes Noise-Jitter
-      d.n  += 0.018;
-      d.vx += Math.cos(d.n) * S.jitter * 0.008;
-      d.vy += Math.sin(d.n) * S.jitter * 0.008;
+    // Effektive Mausposition: Desktop = echter Mauszeiger, Mobile = Drift
+    let cx, cy, cActive;
+    if (isMobile) {
+      updateDrift();
+      cx = drift.x;
+      cy = drift.y;
+      cActive = true;
+    } else {
+      cx = mouse.x;
+      cy = mouse.y;
+      cActive = mouse.active;
+    }
 
-      // Maus-Anziehung
-      if (mouse.active) {
-        const dx = mouse.x - d.x;
-        const dy = mouse.y - d.y;
-        const md = Math.hypot(dx, dy);
-        if (md > 0 && md < S.mouseRadius) {
-          const f = (1 - md / S.mouseRadius) * 0.012;
-          d.vx += dx * f;
-          d.vy += dy * f;
-        }
+    const mx2 = S.mouseRadius * S.mouseRadius;
+    const ld2 = S.linkDist   * S.linkDist;
+
+    // Proximity pro Partikel berechnen
+    const proximity = new Float32Array(dots.length);
+    if (cActive) {
+      for (let i = 0; i < dots.length; i++) {
+        const d  = dots[i];
+        const dx = d.x - cx;
+        const dy = d.y - cy;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < mx2) proximity[i] = 1 - Math.sqrt(d2) / S.mouseRadius;
       }
+    }
 
-      // FIX: Max-Speed clampen → Partikel fliegen nicht weg
-      const speed = Math.hypot(d.vx, d.vy);
-      if (speed > S.maxSpeed) {
-        d.vx = (d.vx / speed) * S.maxSpeed;
-        d.vy = (d.vy / speed) * S.maxSpeed;
-      }
+    // ── 1. Partikel bewegen & zeichnen ────────────────────────────────────
+    for (let i = 0; i < dots.length; i++) {
+      const d = dots[i];
+      d.n  += 0.015;
+      d.vx += Math.cos(d.n) * S.jitter * 0.006;
+      d.vy += Math.sin(d.n) * S.jitter * 0.006;
 
-      d.x += d.vx;
-      d.y += d.vy;
+      const sp = Math.hypot(d.vx, d.vy);
+      if (sp > S.maxSpeed) { d.vx = (d.vx / sp) * S.maxSpeed; d.vy = (d.vy / sp) * S.maxSpeed; }
 
-      // Bounce
-      if (d.x < 0)  { d.x = 0;  d.vx = Math.abs(d.vx); }
+      d.x += d.vx; d.y += d.vy;
+      if (d.x < 0)  { d.x = 0;  d.vx =  Math.abs(d.vx); }
       if (d.x > w)  { d.x = w;  d.vx = -Math.abs(d.vx); }
-      if (d.y < 0)  { d.y = 0;  d.vy = Math.abs(d.vy); }
+      if (d.y < 0)  { d.y = 0;  d.vy =  Math.abs(d.vy); }
       if (d.y > h)  { d.y = h;  d.vy = -Math.abs(d.vy); }
 
-      // Punkt zeichnen
+      const pAlpha = S.dotAlpha + proximity[i] * (1 - S.dotAlpha);
       ctx.beginPath();
       ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-      ctx.fillStyle = d.c === ACCENT
-        ? cachedAlpha(0.9)
-        : `rgba(255,77,90,0.85)`;
+      ctx.fillStyle = d.c === 0
+        ? rgba(ar, ag, ab, pAlpha)
+        : rgba(r2, g2, b2, pAlpha);
       ctx.fill();
     }
 
-    // ── 2. Linien – GEBATCHT ─────────────────────────────────────────────
-    //    Alle Linien einer Alpha-Stufe in EINEM einzigen Path → kein Flimmern
-    const linkDist  = S.linkDist;
-    const linkDist2 = linkDist * linkDist;
-    const mouseR2   = S.mouseRadius * S.mouseRadius;
+    // ── 2. Partikel–Partikel Linien ───────────────────────────────────────
+    ctx.lineWidth = S.lineWidth;
+    for (let i = 0; i < dots.length; i++) {
+      const a  = dots[i];
+      const pi = proximity[i];
+      for (let j = i + 1; j < dots.length; j++) {
+        const p = Math.max(pi, proximity[j]);
+        if (p <= 0) continue;
 
-    // Buckets: pro Alpha-Bucket eine Liste von Liniensegmenten sammeln
-    // Wir nutzen ein Float32Array als Ring-Buffer für maximale Performance
-    // Einfacher Ansatz: Map<alphaIndex, Float32Array-Segmente>
-    const buckets = new Array(S.alphaBuckets + 1);
+        const dx = a.x - dots[j].x;
+        const dy = a.y - dots[j].y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 >= ld2) continue;
 
-    const grid = buildGrid(linkDist);
-    const cw   = Math.ceil(w / linkDist);
-    const ch   = Math.ceil(h / linkDist);
-
-    for (let cx = 0; cx <= cw; cx++) {
-      for (let cy = 0; cy <= ch; cy++) {
-        const base = grid.get(`${cx},${cy}`);
-        if (!base) continue;
-
-        for (let nx = cx - 1; nx <= cx + 1; nx++) {
-          for (let ny = cy - 1; ny <= cy + 1; ny++) {
-            const neigh = grid.get(`${nx},${ny}`);
-            if (!neigh) continue;
-
-            const sameCell = (nx === cx && ny === cy);
-
-            for (let i = 0; i < base.length; i++) {
-              const a  = dots[base[i]];
-              const ai = base[i];
-
-              for (let j = 0; j < neigh.length; j++) {
-                const bi = neigh[j];
-                // Duplikate vermeiden: nur ein Richtung prüfen
-                if (sameCell && ai >= bi) continue;
-
-                const b  = dots[bi];
-                const dx = a.x - b.x;
-                const dy = a.y - b.y;
-                const d2 = dx * dx + dy * dy;
-                if (d2 >= linkDist2) continue;
-
-                const t     = 1 - d2 / linkDist2;
-                let   alpha = S.minAlpha + (S.maxAlpha - S.minAlpha) * (t * t);
-
-                // Maus-Boost
-                if (mouse.active) {
-                  const ax2 = (a.x - mouse.x) ** 2 + (a.y - mouse.y) ** 2;
-                  const bx2 = (b.x - mouse.x) ** 2 + (b.y - mouse.y) ** 2;
-                  if (ax2 < mouseR2 || bx2 < mouseR2) {
-                    const mm = 1 - Math.min(ax2, bx2) / mouseR2;
-                    alpha = Math.min(1, alpha + mm * S.mouseBoost);
-                  }
-                }
-
-                // In den richtigen Bucket einordnen
-                const idx = Math.round(alpha * S.alphaBuckets);
-                const clamped = Math.max(0, Math.min(S.alphaBuckets, idx));
-                if (!buckets[clamped]) buckets[clamped] = [];
-                buckets[clamped].push(a.x, a.y, b.x, b.y);
-              }
-            }
-          }
-        }
+        const alpha = S.lineMaxAlpha * (1 - d2 / ld2) * p;
+        ctx.strokeStyle = rgba(ar, ag, ab, alpha);
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(dots[j].x, dots[j].y);
+        ctx.stroke();
       }
     }
 
-    // ── Alle Buckets in je EINEM Path rendern ────────────────────────────
-    ctx.lineWidth = S.baseLineWidth;
-    for (let i = 0; i <= S.alphaBuckets; i++) {
-      const segs = buckets[i];
-      if (!segs || segs.length === 0) continue;
-
-      ctx.strokeStyle = alphaCache[i];
-      ctx.beginPath();
-      for (let k = 0; k < segs.length; k += 4) {
-        ctx.moveTo(segs[k],     segs[k + 1]);
-        ctx.lineTo(segs[k + 2], segs[k + 3]);
+    // ── 3. Cursor → Partikel Linien ───────────────────────────────────────
+    if (cActive) {
+      ctx.lineWidth = S.mouseLineWidth;
+      for (let i = 0; i < dots.length; i++) {
+        const p = proximity[i];
+        if (p <= 0) continue;
+        const d = dots[i];
+        ctx.strokeStyle = rgba(ar, ag, ab, p * p * S.mouseLineAlpha);
+        ctx.beginPath();
+        ctx.moveTo(d.x, d.y);
+        ctx.lineTo(cx, cy);
+        ctx.stroke();
       }
-      ctx.stroke(); // ← NUR 1× pro Alpha-Stufe statt 1× pro Linie!
     }
   }
 
-  // ── Events ───────────────────────────────────────────────────────────────
-  function toLocal(clientX, clientY) {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = clientX - rect.left;
-    mouse.y = clientY - rect.top;
-    mouse.active = true;
-  }
+  // ── Events (nur Desktop) ──────────────────────────────────────────────────
+  if (!isMobile) {
+    window.addEventListener("mousemove", e => {
+      const rect   = canvas.getBoundingClientRect();
+      mouse.x      = e.clientX - rect.left;
+      mouse.y      = e.clientY - rect.top;
+      mouse.active = true;
+    }, { passive: true });
 
-  window.addEventListener("mousemove",  e => toLocal(e.clientX, e.clientY), { passive: true });
-  window.addEventListener("touchmove",  e => {
-    if (e.touches?.[0]) toLocal(e.touches[0].clientX, e.touches[0].clientY);
-  }, { passive: true });
-  window.addEventListener("mouseleave", () => {
-    mouse.active = false;
-    mouse.x = mouse.y = -99999;
-  });
+    window.addEventListener("mouseleave", () => {
+      mouse.active = false;
+      mouse.x = mouse.y = -99999;
+    });
+  }
+  // Kein touchmove-Listener → kein Kollabieren beim Scrollen!
 
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resize, 80); // Debounce
+    resizeTimer = setTimeout(resize, 80);
   });
 
   resize();
