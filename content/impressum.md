@@ -4,12 +4,11 @@ url: "/impressum/"
 ---
 
 Ugur Dikmen  
-[Straße Hausnummer]  
-[PLZ Ort], Deutschland  
+Rudolf-Kausch Str. 14  
+67227 Frankenthal(Pfalz), Deutschland  
 
-Kontakt:  
-Telefon: [Deine Telefonnummer]  
-E-Mail: [Deine E-Mail-Adresse]  
+Kontakt:    
+E-Mail: Dikmen1997ugur@gmail.com  
 
 Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV:  
 Ugur Dikmen  
