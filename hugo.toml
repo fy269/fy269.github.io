@@ -5,6 +5,6 @@ enableRobotsTXT = true
 disableKinds = ["taxonomy","term"]
 
 [params]
-description = "Bewerbungsseite von Ugur Dikmen – Umschulung zum Fachinformatiker für Systemintegration (IHK) mit Fokus auf Linux, Windows, Netzwerke, Virtualisierung, Automatisierung und dokumentierte Infrastruktur-Projekte."
+description = "Bewerbungsseite von Ugur Dikmen – Umschulung zum Fachinformatiker für Systemintegration (IHK), Praktikum ab 15.09.2026, mit Fokus auf Linux, Windows, Netzwerke, Virtualisierung und dokumentierte Infrastruktur-Projekte."
 email = "Dikmen1997ugur@gmail.com"
 github = "https://github.com/fy269"
