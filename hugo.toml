@@ -1,4 +1,10 @@
 baseURL = "https://dikmenugur.com/"
 languageCode = "de-de"
-title = "Ugur Dikmen – Praktikum Systemintegration"
+title = "Ugur Dikmen – Fachinformatiker Systemintegration"
+enableRobotsTXT = true
 disableKinds = ["taxonomy","term"]
+
+[params]
+description = "Bewerbungsseite von Ugur Dikmen – Umschulung zum Fachinformatiker für Systemintegration (IHK) mit Fokus auf Linux, Windows, Netzwerke, Virtualisierung, Automatisierung und dokumentierte Infrastruktur-Projekte."
+email = "Dikmen1997ugur@gmail.com"
+github = "https://github.com/fy269"

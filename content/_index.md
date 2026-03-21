@@ -1,16 +1,6 @@
 ---
-
 title: "Start"
-
+description: "Bewerbungsseite von Ugur Dikmen – Umschulung zum Fachinformatiker für Systemintegration."
 ---
 
-\# Ugur Dikmen
-
-Praktikum Fachinformatiker Systemintegration (Umschulung)
-
-
-
-➡️ \*\*/praktikum\*\* · \*\*/projekte\*\* · \*\*/kontakt\*\*
-
-
-
+Diese Startseite bündelt Kurzprofil, Qualifikationen, Projektfokus und Kontakt.

@@ -1,12 +1,13 @@
 {{ define "main" }}
 
 <header class="topnav">
-  <a class="brand" href="#top">Ugur</a>
+  <a class="brand" href="#top">Ugur Dikmen</a>
   <nav>
-    <a href="#about">About</a>
-    <a href="#skills">Skills</a>
-    <a href="#projects">Projekte</a>
-    <a href="#contact">Kontakt</a>
+    <a href="#profil">Profil</a>
+    <a href="#qualifikationen">Qualifikationen</a>
+    <a href="#kompetenzen">Kompetenzen</a>
+    <a href="#projekte">Projekte</a>
+    <a href="#kontakt">Kontakt</a>
   </nav>
 </header>
 
@@ -15,107 +16,238 @@
     <canvas id="hero-canvas" aria-hidden="true"></canvas>
 
     <div class="hero-inner">
-      <p class="eyebrow">Praktikum gesucht · Fachinformatiker Systemintegration (Umschulung)</p>
+      <p class="eyebrow">Praktikum / Berufseinstieg · Fachinformatiker für Systemintegration</p>
 
-      <h1>Hi, ich bin <span class="accent">Ugur</span>.<br>Ich baue stabile IT-Infrastruktur.</h1>
+      <h1>
+        Ich baue <span class="accent">strukturierte IT-Umgebungen</span> –
+        mit Fokus auf Administration, Netzwerke, Virtualisierung und saubere Dokumentation.
+      </h1>
 
       <p class="lead">
-        Fokus: Linux/Windows, Netzwerke, Virtualisierung (Proxmox), Docker,
-        saubere Dokumentation & Automatisierung.
+        Aktuell in Umschulung zum Fachinformatiker für Systemintegration (IHK). Mein Schwerpunkt liegt auf
+        Linux- und Windows-Administration, Netzwerken, Virtualisierung, Troubleshooting und nachvollziehbarer Projektdokumentation.
       </p>
 
       <div class="cta">
-        <a class="btn primary" href="#projects">Projekte ansehen →</a>
-        <a class="btn" href="mailto:DEINE_MAIL">Kontakt</a>
-        <a class="btn ghost" href="/assets/cv.pdf">Lebenslauf (PDF)</a>
+        <a class="btn primary" href="#projekte">Projekte ansehen</a>
+        <a class="btn" href="#qualifikationen">Qualifikationen</a>
+        <a class="btn ghost" href="mailto:{{ .Site.Params.email }}">Kontakt per E-Mail</a>
       </div>
 
       <div class="links">
-        <a href="https://github.com/fy269" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="{{ .Site.Params.github }}" target="_blank" rel="noreferrer">GitHub</a>
         <span>·</span>
-        <a href="#about">Über mich</a>
+        <a href="#profil">Kurzprofil</a>
+        <span>·</span>
+        <a href="/kontakt/">Kontaktseite</a>
+      </div>
+
+      <div class="fact-grid">
+        <div class="fact-card">
+          <span class="fact-label">Aktuell</span>
+          <strong>Umschulung FISI (IHK)</strong>
+          <span class="fact-copy">Schwerpunkt Systemintegration, Administration und Infrastruktur</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-label">Fokus</span>
+          <strong>Linux · Windows · Netzwerke</strong>
+          <span class="fact-copy">Praxisnah, nachvollziehbar dokumentiert und technisch sauber aufgebaut</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-label">Praxis</span>
+          <strong>Homelab & Infrastruktur-Projekte</strong>
+          <span class="fact-copy">Virtualisierung, Dienste, Monitoring, Backup und Troubleshooting</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="about" class="section">
-    <h2>About</h2>
+  <section id="profil" class="section">
+    <p class="section-kicker">Kurzprofil</p>
+    <h2>Technisch interessiert, strukturiert im Aufbau, sauber in der Dokumentation.</h2>
     <div class="two-col">
-      <p>
-        Ich mache aktuell eine Umschulung zum Fachinformatiker Systemintegration und suche ein Praktikum.
-        Ich arbeite strukturiert: reproduzierbare Setups, saubere README-Doku, Troubleshooting, Security-Basics.
-      </p>
-      <p class="muted">
-        Stärke: Betrieb & Integration (DNS/TLS/Deploy/Monitoring) – nicht nur „Baukasten“.
-      </p>
+      <div class="panel">
+        <p>
+          Ich befinde mich aktuell in der Umschulung zum Fachinformatiker für Systemintegration (IHK)
+          bei der GFN in Mannheim. Mein Ziel ist der praktische Einstieg in den IT-Betrieb –
+          mit besonderem Interesse an Systemadministration, Netzwerken, Virtualisierung und Support-naher Infrastruktur.
+        </p>
+        <p>
+          Ich arbeite gerne nachvollziehbar: klare Setups, dokumentierte Entscheidungen, reproduzierbare Schritte
+          und ein Fokus auf stabile Ergebnisse statt reiner Oberfläche.
+        </p>
+      </div>
+      <div class="panel muted-panel">
+        <h3>Was ich mitbringe</h3>
+        <ul class="list">
+          <li>strukturierte Arbeitsweise</li>
+          <li>Interesse an Linux- und Windows-Systemen</li>
+          <li>Verständnis für Netzwerke, Dienste und Fehleranalyse</li>
+          <li>Dokumentation, Troubleshooting und saubere Übergabe</li>
+        </ul>
+      </div>
     </div>
   </section>
 
-  <section id="skills" class="section">
-    <h2>Skills</h2>
+  <section id="qualifikationen" class="section">
+    <p class="section-kicker">Aus dem Umschulungsprofil</p>
+    <h2>Relevante Inhalte und Zusatzqualifikationen</h2>
+    <p class="section-intro">
+      Die Inhalte basieren auf dem bereitgestellten Umschulungsprofil und wurden so aufbereitet,
+      dass sie für Recruiter und Ausbildungsbetriebe schnell erfassbar sind.
+    </p>
+
+    <div class="cards two-up">
+      <article class="card">
+        <h3>Umschulung / Lerninhalte</h3>
+        <ul class="list">
+          <li>Netzwerke planen, einrichten und administrieren</li>
+          <li>Windows- und Linux-Systeme im Betrieb verstehen</li>
+          <li>IT-Sicherheit, Datenschutz und saubere Systemhärtung</li>
+          <li>Virtualisierung, Cloud-Grundlagen und Dienste</li>
+          <li>Skripting, Automatisierung und strukturierte Fehleranalyse</li>
+          <li>Projektarbeit, Dokumentation und Support-orientiertes Arbeiten</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Zusatzqualifikationen</h3>
+        <ul class="list">
+          <li>Linux Essentials</li>
+          <li>ITIL 4 Foundation</li>
+          <li>Windows Server &amp; PowerShell</li>
+          <li>Azure Administrator Associate</li>
+        </ul>
+        <p class="meta">
+          Darstellung basierend auf dem eingereichten Dokument zur Umschulung / Lebenslauf-Aufbereitung.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="kompetenzen" class="section">
+    <p class="section-kicker">Kompetenzen</p>
+    <h2>Technologien und Arbeitsfelder</h2>
     <div class="grid">
       <div class="chip">Linux</div>
       <div class="chip">Windows</div>
-      <div class="chip">Netzwerk (DNS/DHCP/VLAN)</div>
-      <div class="chip">Proxmox/Virtualisierung</div>
+      <div class="chip">Netzwerke</div>
+      <div class="chip">DNS / DHCP / VLAN</div>
+      <div class="chip">Proxmox / Virtualisierung</div>
       <div class="chip">Docker</div>
-      <div class="chip">Git</div>
-      <div class="chip">Bash / PowerShell</div>
-      <div class="chip">Backup/Restore</div>
+      <div class="chip">Git / GitHub</div>
+      <div class="chip">Bash</div>
+      <div class="chip">PowerShell</div>
+      <div class="chip">Backup / Restore</div>
+      <div class="chip">Monitoring</div>
+      <div class="chip">Troubleshooting</div>
+      <div class="chip">Dokumentation</div>
+      <div class="chip">Supportnahe Administration</div>
     </div>
   </section>
 
-  <section id="projects" class="section">
-    <h2>Projekte</h2>
+  <section class="section">
+    <p class="section-kicker">Arbeitsweise</p>
+    <h2>Was meine Projekte aussagen sollen</h2>
+    <div class="cards three-up">
+      <article class="card">
+        <h3>Praxis statt Buzzwords</h3>
+        <p class="muted">
+          Ich möchte nicht nur Technologien nennen, sondern zeigen, wie ich Systeme aufsetze,
+          prüfe, dokumentiere und nachvollziehbar betreibe.
+        </p>
+      </article>
+      <article class="card">
+        <h3>Stabilität &amp; Nachvollziehbarkeit</h3>
+        <p class="muted">
+          Für mich zählen reproduzierbare Setups, saubere Abläufe, verständliche Doku
+          und ein klarer Blick auf Betrieb, Fehlerbilder und Wiederherstellung.
+        </p>
+      </article>
+      <article class="card">
+        <h3>Recruiter-freundlich aufbereitet</h3>
+        <p class="muted">
+          Die Seite soll in kurzer Zeit sichtbar machen, woran ich arbeite,
+          welche Themen mich fachlich prägen und wo ich praktisch Mehrwert liefern kann.
+        </p>
+      </article>
+    </div>
+  </section>
 
-    <div class="cards">
+  <section id="projekte" class="section">
+    <p class="section-kicker">Projektfokus</p>
+    <h2>Ausgewählte Themenfelder</h2>
+
+    <div class="cards three-up">
       <article class="card">
         <h3>Home-Lab Infrastruktur</h3>
-        <p class="muted">Virtualisierung + Netzwerke + Storage, reproduzierbar dokumentiert.</p>
-        <div class="meta">Proxmox · VLAN · NFS/TrueNAS · Backups</div>
+        <p class="muted">
+          Aufbau einer dokumentierten Lern- und Testumgebung für Virtualisierung,
+          Storage, Netzwerksegmentierung und Betriebsszenarien.
+        </p>
+        <div class="meta">Proxmox · VLAN · TrueNAS / NFS · Backups · Doku</div>
         <div class="card-actions">
-          <a class="btn small" href="https://github.com/fy269/DEINREPO" target="_blank" rel="noreferrer">Doku/Code</a>
+          <a class="btn small" href="/projekte/">Projektübersicht</a>
+          <a class="btn small ghost" href="{{ .Site.Params.github }}" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </article>
 
       <article class="card">
-        <h3>Linux Administration</h3>
-        <p class="muted">SSH, Users/Sudo, Services, Troubleshooting.</p>
-        <div class="meta">Debian · SSH · Systemd · Rechte</div>
+        <h3>Linux Administration &amp; Troubleshooting</h3>
+        <p class="muted">
+          Arbeit mit SSH, Benutzer- und Rechteverwaltung, Diensten, Paketmanagement,
+          Logs und systematischer Fehlersuche.
+        </p>
+        <div class="meta">Debian · SSH · systemd · Rechte · Analyse</div>
         <div class="card-actions">
-          <a class="btn small" href="https://github.com/fy269/DEINREPO2" target="_blank" rel="noreferrer">Doku/Code</a>
+          <a class="btn small" href="/projekte/">Mehr lesen</a>
         </div>
       </article>
 
       <article class="card">
-        <h3>Ops / Monitoring</h3>
-        <p class="muted">Verfügbarkeit überwachen + Alerts.</p>
-        <div class="meta">Uptime-Kuma · Alerts · Logs</div>
+        <h3>Monitoring &amp; Betrieb</h3>
+        <p class="muted">
+          Fokus auf Verfügbarkeit, Service-Überwachung, Alarme, Logs und sinnvolle
+          Betriebsroutinen für kleine Infrastruktur-Setups.
+        </p>
+        <div class="meta">Uptime-Kuma · Alerts · Logs · Betriebsroutine</div>
         <div class="card-actions">
-          <a class="btn small" href="https://github.com/fy269/DEINREPO3" target="_blank" rel="noreferrer">Doku/Code</a>
+          <a class="btn small" href="/projekte/">Mehr lesen</a>
         </div>
       </article>
     </div>
   </section>
 
-  <section id="contact" class="section">
-    <h2>Kontakt</h2>
-    <p class="muted">
-      E-Mail: <a href="mailto:Dikmen1997ugur@gmail.com">Dikmen1997ugur@gmail.com</a>
-    </p>
+  <section id="kontakt" class="section">
+    <p class="section-kicker">Kontakt</p>
+    <h2>Offen für Praktikum, Austausch und passende IT-Möglichkeiten</h2>
+    <div class="contact-grid">
+      <div class="panel">
+        <p class="muted">
+          Bei Interesse an meinem Profil, einem Praktikumsplatz oder einem fachlichen Austausch
+          freue ich mich über eine Nachricht.
+        </p>
+      </div>
+      <div class="panel">
+        <ul class="contact-list">
+          <li><strong>E-Mail:</strong> <a href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a></li>
+          <li><strong>GitHub:</strong> <a href="{{ .Site.Params.github }}" target="_blank" rel="noreferrer">github.com/fy269</a></li>
+        </ul>
+      </div>
+    </div>
   </section>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <span class="footer-left">© {{ now.Format "2006" }} Ugur Dikmen</span>
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-left">© {{ now.Format "2006" }} Ugur Dikmen</span>
 
-    <nav class="footer-links" aria-label="Rechtliches">
-      <a href="/impressum/">Impressum</a>
-      <span class="footer-sep">·</span>
-      <a href="/datenschutz/">Datenschutz</a>
-    </nav>
-  </div>
-</footer>
+      <nav class="footer-links" aria-label="Rechtliches">
+        <a href="/impressum/">Impressum</a>
+        <span class="footer-sep">·</span>
+        <a href="/datenschutz/">Datenschutz</a>
+      </nav>
+    </div>
+  </footer>
 </main>
 
 {{ end }}
