@@ -1,0 +1,26 @@
+.cv-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.cv-panel{
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--surface-strong);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.cv-frame{
+  width:100%;
+  min-height:900px;
+  border:0;
+  display:block;
+  background:#fff;
+}
+
+@media (max-width: 760px){
+  .cv-frame{
+    min-height:620px;
+  }
+}

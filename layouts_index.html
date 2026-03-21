@@ -1,0 +1,278 @@
+{{ define "main" }}
+
+<header class="topnav">
+  <a class="brand" href="#top">Ugur Dikmen</a>
+  <nav>
+    <a href="#profil">Profil</a>
+    <a href="#qualifikationen">Qualifikationen</a>
+    <a href="#kompetenzen">Kompetenzen</a>
+    <a href="#projekte">Projekte</a>
+    <a href="#lebenslauf">Lebenslauf</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+    <div class="hero-inner">
+      <p class="eyebrow">Praktikum ab 15.09.2026 · Fachinformatiker für Systemintegration</p>
+
+      <h1>
+        Ich baue <span class="accent">strukturierte IT-Umgebungen</span> –
+        mit Fokus auf Administration, Netzwerke, Virtualisierung und saubere Dokumentation.
+      </h1>
+
+      <p class="lead">
+        Ich absolviere derzeit meine Umschulung zum Fachinformatiker für Systemintegration (IHK) bei der GFN in Mannheim
+        und suche für die Praktikumsphase ab dem 15.09.2026 ein Umfeld, in dem ich mich fachlich einbringen und weiterentwickeln kann.
+      </p>
+
+      <div class="cta">
+        <a class="btn primary" href="#projekte">Projekte ansehen</a>
+        <a class="btn" href="#lebenslauf">Lebenslauf ansehen</a>
+        <a class="btn ghost" href="mailto:{{ .Site.Params.email }}">Kontakt per E-Mail</a>
+      </div>
+
+      <div class="links">
+        <a href="{{ .Site.Params.github }}" target="_blank" rel="noreferrer">GitHub</a>
+        <span>·</span>
+        <a href="#profil">Kurzprofil</a>
+        <span>·</span>
+        <a href="/kontakt/">Kontaktseite</a>
+      </div>
+
+      <div class="fact-grid">
+        <div class="fact-card">
+          <span class="fact-label">Umschulung</span>
+          <strong>06/2025 – 06/2027</strong>
+          <span class="fact-copy">Fachinformatiker für Systemintegration (IHK) bei der GFN in Mannheim</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-label">Theoriephase</span>
+          <strong>15.06.2025 – 15.09.2026</strong>
+          <span class="fact-copy">Schwerpunkt Administration, Netzwerke, Virtualisierung und IT-Betrieb</span>
+        </div>
+        <div class="fact-card">
+          <span class="fact-label">Praktikumsphase</span>
+          <strong>15.09.2026 – 15.06.2027</strong>
+          <span class="fact-copy">Ich suche ein praxisnahes IT-Umfeld für den Berufseinstieg und weiteres Wachstum</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="profil" class="section">
+    <p class="section-kicker">Kurzprofil</p>
+    <h2>Technisch interessiert, strukturiert im Aufbau, sauber in der Dokumentation.</h2>
+    <div class="two-col">
+      <div class="panel">
+        <p>
+          Ich befinde mich aktuell in der Umschulung zum Fachinformatiker für Systemintegration (IHK)
+          bei der GFN in Mannheim. Mein Ziel ist der praktische Einstieg in den IT-Betrieb –
+          mit besonderem Interesse an Systemadministration, Netzwerken, Virtualisierung und supportnaher Infrastruktur.
+        </p>
+        <p>
+          Ich arbeite gerne nachvollziehbar: klare Setups, dokumentierte Entscheidungen, reproduzierbare Schritte
+          und ein Fokus auf stabile Ergebnisse statt reiner Oberfläche.
+        </p>
+      </div>
+      <div class="panel muted-panel">
+        <h3>Was ich mitbringe</h3>
+        <ul class="list">
+          <li>strukturierte und lernorientierte Arbeitsweise</li>
+          <li>Interesse an Linux- und Windows-Systemen</li>
+          <li>Verständnis für Netzwerke, Dienste und Fehleranalyse</li>
+          <li>Dokumentation, Troubleshooting und saubere Übergabe</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="qualifikationen" class="section">
+    <p class="section-kicker">Ausbildung & Qualifikationen</p>
+    <h2>Relevante Inhalte, Zertifikate und Verfügbarkeit</h2>
+    <p class="section-intro">
+      Die Inhalte wurden so aufbereitet, dass Recruiter und Unternehmen schnell erkennen können,
+      worauf mein aktueller Fokus liegt und ab wann ich für ein Praktikum zur Verfügung stehe.
+    </p>
+
+    <div class="cards two-up">
+      <article class="card">
+        <h3>Umschulung / Lerninhalte</h3>
+        <ul class="list">
+          <li>Netzwerke planen, einrichten und administrieren</li>
+          <li>Windows- und Linux-Systeme im Betrieb verstehen</li>
+          <li>IT-Sicherheit, Datenschutz und saubere Systemhärtung</li>
+          <li>Virtualisierung, Cloud-Grundlagen und Dienste</li>
+          <li>Skripting, Automatisierung und strukturierte Fehleranalyse</li>
+          <li>Projektarbeit, Dokumentation und supportorientiertes Arbeiten</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Zertifikate & Rahmen</h3>
+        <ul class="list">
+          <li>Linux Essentials</li>
+          <li>ITIL 4 Foundation</li>
+          <li>Windows Server &amp; PowerShell</li>
+          <li>Azure Administrator Associate</li>
+          <li>Praktikumsphase: 15.09.2026 – 15.06.2027</li>
+          <li>Abschluss: IHK 2027</li>
+        </ul>
+        <p class="meta">
+          Ziel: Einstieg in ein praxisnahes IT-Umfeld mit Fokus auf Administration, Infrastruktur und Weiterentwicklung.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="kompetenzen" class="section">
+    <p class="section-kicker">Kompetenzen</p>
+    <h2>Technologien und Arbeitsfelder</h2>
+    <div class="grid">
+      <div class="chip">Linux</div>
+      <div class="chip">Windows</div>
+      <div class="chip">Netzwerke</div>
+      <div class="chip">DNS / DHCP / VLAN</div>
+      <div class="chip">Proxmox / Virtualisierung</div>
+      <div class="chip">Docker</div>
+      <div class="chip">Git / GitHub</div>
+      <div class="chip">Bash</div>
+      <div class="chip">PowerShell</div>
+      <div class="chip">Backup / Restore</div>
+      <div class="chip">Monitoring</div>
+      <div class="chip">Troubleshooting</div>
+      <div class="chip">Dokumentation</div>
+      <div class="chip">Supportnahe Administration</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="section-kicker">Arbeitsweise</p>
+    <h2>Was meine Projekte aussagen sollen</h2>
+    <div class="cards three-up">
+      <article class="card">
+        <h3>Praxis statt Buzzwords</h3>
+        <p class="muted">
+          Ich möchte nicht nur Technologien nennen, sondern zeigen, wie ich Systeme aufsetze,
+          prüfe, dokumentiere und nachvollziehbar betreibe.
+        </p>
+      </article>
+      <article class="card">
+        <h3>Stabilität &amp; Nachvollziehbarkeit</h3>
+        <p class="muted">
+          Für mich zählen reproduzierbare Setups, saubere Abläufe, verständliche Dokumentation
+          und ein klarer Blick auf Betrieb, Fehlerbilder und Wiederherstellung.
+        </p>
+      </article>
+      <article class="card">
+        <h3>Recruiter-freundlich aufbereitet</h3>
+        <p class="muted">
+          Die Seite soll in kurzer Zeit sichtbar machen, woran ich arbeite,
+          welche Themen mich fachlich prägen und wo ich praktisch Mehrwert liefern kann.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="projekte" class="section">
+    <p class="section-kicker">Projektfokus</p>
+    <h2>Ausgewählte Themenfelder</h2>
+
+    <div class="cards three-up">
+      <article class="card">
+        <h3>Home-Lab Infrastruktur</h3>
+        <p class="muted">
+          Aufbau einer dokumentierten Lern- und Testumgebung für Virtualisierung,
+          Storage, Netzwerksegmentierung und Betriebsszenarien.
+        </p>
+        <div class="meta">Proxmox · VLAN · TrueNAS / NFS · Backups · Dokumentation</div>
+        <div class="card-actions">
+          <a class="btn small" href="/projekte/">Projektübersicht</a>
+          <a class="btn small ghost" href="{{ .Site.Params.github }}" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Linux Administration &amp; Troubleshooting</h3>
+        <p class="muted">
+          Arbeit mit SSH, Benutzer- und Rechteverwaltung, Diensten, Paketmanagement,
+          Logs und systematischer Fehlersuche.
+        </p>
+        <div class="meta">Debian · SSH · systemd · Rechte · Analyse</div>
+        <div class="card-actions">
+          <a class="btn small" href="/projekte/">Mehr lesen</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Monitoring &amp; Betrieb</h3>
+        <p class="muted">
+          Fokus auf Verfügbarkeit, Service-Überwachung, Alarme, Logs und sinnvolle
+          Betriebsroutinen für kleine Infrastruktur-Setups.
+        </p>
+        <div class="meta">Uptime-Kuma · Alerts · Logs · Betriebsroutine</div>
+        <div class="card-actions">
+          <a class="btn small" href="/projekte/">Mehr lesen</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="lebenslauf" class="section">
+    <p class="section-kicker">Lebenslauf</p>
+    <h2>Lebenslauf direkt ansehen oder herunterladen</h2>
+    <p class="section-intro">
+      Der aktuelle Lebenslauf bleibt direkt auf der Website eingebettet und kann zusätzlich separat geöffnet oder heruntergeladen werden.
+    </p>
+
+    <div class="cv-actions">
+      <a class="btn primary" href="/assets/cv.pdf" target="_blank" rel="noreferrer">Lebenslauf öffnen</a>
+      <a class="btn" href="/assets/cv.pdf" download>Lebenslauf herunterladen</a>
+    </div>
+
+    <div class="cv-panel">
+      <iframe
+        class="cv-frame"
+        src="/assets/cv.pdf#view=FitH"
+        title="Lebenslauf von Ugur Dikmen"
+        loading="lazy">
+      </iframe>
+    </div>
+  </section>
+
+  <section id="kontakt" class="section">
+    <p class="section-kicker">Kontakt</p>
+    <h2>Offen für Praktikum, Austausch und passende IT-Möglichkeiten</h2>
+    <div class="contact-grid">
+      <div class="panel">
+        <p class="muted">
+          Bei Interesse an meinem Profil, einem Praktikumsplatz oder einem fachlichen Austausch
+          freue ich mich über eine Nachricht.
+        </p>
+      </div>
+      <div class="panel">
+        <ul class="contact-list">
+          <li><strong>E-Mail:</strong> <a href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a></li>
+          <li><strong>GitHub:</strong> <a href="{{ .Site.Params.github }}" target="_blank" rel="noreferrer">github.com/fy269</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-left">© {{ now.Format "2006" }} Ugur Dikmen</span>
+
+      <nav class="footer-links" aria-label="Rechtliches">
+        <a href="/impressum/">Impressum</a>
+        <span class="footer-sep">·</span>
+        <a href="/datenschutz/">Datenschutz</a>
+      </nav>
+    </div>
+  </footer>
+</main>
+
+{{ end }}
