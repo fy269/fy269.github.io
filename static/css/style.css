@@ -11,7 +11,10 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+}
 body{
   margin:0;
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -111,8 +114,12 @@ h3{
   max-width:none;
 }
 
-.headline-lock{
+.hero-line{
   display:block;
+}
+
+.hero-line-2,
+.hero-line-3{
   white-space:nowrap;
 }
 .lead{
@@ -449,8 +456,18 @@ h3{
 
   .hero-title{
     max-width:none;
-    font-size:clamp(23px, 7.4vw, 42px);
+    margin:0 0 14px;
     line-height:1.08;
+  }
+
+  .hero-line-1{
+    font-size:clamp(30px, 9vw, 42px);
+  }
+
+  .hero-line-2,
+  .hero-line-3{
+    font-size:clamp(17px, 5vw, 22px);
+    line-height:1.15;
   }
 }
 
