@@ -9,9 +9,11 @@
   const ACCENT  = css.getPropertyValue("--accent").trim()  || "#51a2e9";
   const ACCENT2 = css.getPropertyValue("--accent2").trim() || "#ff4d5a";
 
+  const isMobile = window.matchMedia("(max-width: 760px)").matches;
+
   const S = {
-    density:   5000,
-    maxDots:   300,
+    density:   isMobile ? 8000 : 5000,
+    maxDots:   isMobile ? 80   : 300,
     linkDist:    130,
     mouseRadius: 200,
     dotMinR:   1.2,
