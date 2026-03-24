@@ -437,7 +437,7 @@ h3{
     min-height:auto;
     padding-top:110px;
   }
-  h1{max-width:none;font-size:clamp(18px,5vw,24px)}
+  h1{max-width:none}
 }
 
 @media (prefers-reduced-motion: reduce){
