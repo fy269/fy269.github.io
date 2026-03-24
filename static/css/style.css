@@ -446,3 +446,34 @@ h3{
   .btn,
   .card{transition:none}
 }
+
+/* ── CV / Lebenslauf (aus style_css_append.txt übernommen) ── */
+.cv-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.cv-panel{
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--surface-strong);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.cv-frame{
+  width:100%;
+  min-height:900px;
+  border:0;
+  display:block;
+  background:#fff;
+}
+@media (max-width: 760px){
+  .cv-frame{ min-height:620px; }
+}
+
+/* ── Scroll-Offset für fixe Topnav ── */
+/* Navbar: 16px oben + ~44px Höhe + 12px Puffer = 72px */
+[id]{
+  scroll-margin-top: 80px;
+}
