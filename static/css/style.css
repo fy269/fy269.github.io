@@ -60,6 +60,10 @@ a:hover{color:var(--accent)}
   align-items:center;
   padding:120px 22px 70px;
 }
+.hero-training{
+  padding-top:0;
+  margin-top:-20px;
+}
 #hero-canvas{
   position:absolute;
   inset:0;
