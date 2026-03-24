@@ -84,8 +84,8 @@ a:hover{color:var(--accent)}
   color:var(--muted);
   margin:0 0 10px;
   font-size:14px;
-  letter-spacing:.04em;
-  text-transform:uppercase;
+  letter-spacing:0;
+  text-transform:none;
 }
 h1{
   margin:0 0 14px;
