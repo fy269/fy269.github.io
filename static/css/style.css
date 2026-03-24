@@ -201,48 +201,109 @@ h3{
   color:var(--muted);
   font-size:14px;
 }
-.training-overview{
+.training-box{
   margin-top:28px;
-  display:grid;
-  gap:14px;
-}
-
-.training-summary{
-  max-width:620px;
-  margin:0 auto;
-  padding:20px 24px;
-  text-align:center;
+  padding:28px;
   border:1px solid var(--border);
-  border-radius:18px;
-  background:var(--surface);
+  border-radius:24px;
+  background:linear-gradient(
+    180deg,
+    rgba(15,22,32,.82),
+    rgba(15,22,32,.72)
+  );
   box-shadow:var(--shadow);
+  backdrop-filter:blur(10px);
 }
 
-.training-summary .fact-label{
+.training-box-header{
+  text-align:center;
+  max-width:720px;
+  margin:0 auto;
+}
+
+.training-box-header .fact-label{
   display:block;
   margin-bottom:8px;
+  font-size:14px;
 }
 
-.training-summary strong{
+.training-box-header strong{
   display:block;
-  font-size:22px;
-  margin-bottom:8px;
+  font-size:clamp(28px,3vw,40px);
+  line-height:1.1;
+  margin-bottom:12px;
 }
 
-.training-summary .fact-copy{
+.training-box-header .fact-copy{
   display:block;
   max-width:52ch;
   margin:0 auto;
+  font-size:17px;
+  line-height:1.6;
 }
 
-.training-columns{
+.training-box-divider{
+  height:1px;
+  margin:26px 0 22px;
+  background:linear-gradient(
+    90deg,
+    rgba(255,255,255,0),
+    rgba(81,162,233,.42),
+    rgba(255,255,255,0)
+  );
+}
+
+.training-box-columns{
   display:grid;
   grid-template-columns:1fr;
-  gap:14px;
+  gap:16px;
 }
 
-.phase-card{
-  height:100%;
+.training-phase{
+  padding:22px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:rgba(8,14,24,.42);
+}
+
+.training-phase .fact-label{
+  display:block;
+  margin-bottom:10px;
+  font-size:13px;
+}
+
+.training-phase strong{
+  display:block;
+  font-size:clamp(22px,2vw,30px);
+  line-height:1.2;
+  margin-bottom:12px;
+}
+
+.training-phase .fact-copy{
+  display:block;
+  font-size:16px;
+  line-height:1.65;
+}
+
+@media (min-width: 860px){
+  .training-box-columns{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media (max-width: 760px){
+  .training-box{
+    padding:20px;
+    border-radius:20px;
+  }
+
+  .training-box-header strong{
+    font-size:30px;
+  }
+
+  .training-phase{
+    padding:18px;
+  }
 }
 .section{
   padding:72px 22px;
