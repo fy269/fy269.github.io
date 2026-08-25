@@ -1,15 +1,13 @@
-# fy269.github.io
+# dikmenugur.com
 
-Bewerbungsseite von Ugur Dikmen.
+Öffentlicher Auslieferungsstand der Bewerbungsseite von Ugur Dikmen.
 
 ## Ziel
-Die Seite präsentiert den aktuellen Stand der Umschulung zum Fachinformatiker für Systemintegration,
-relevante Schwerpunkte, praktische Projekte und Kontaktmöglichkeiten für Praktikum oder Berufseinstieg.
+Die Seite bündelt Profil, praktische Schwerpunkte, Projekte, technische Dokumentationen,
+Lebenslauf und Kontaktmöglichkeiten für ein Praktikum im Bereich Systemintegration.
 
-## Struktur
-- `layouts/index.html` – Startseite
-- `layouts/_default/single.html` – Einzelseiten (z. B. Impressum / Datenschutz)
-- `layouts/_default/list.html` – Bereichsseiten
-- `static/css/style.css` – zentrales Styling
-- `static/js/particles.js` – Hintergrundanimation
-- `content/` – Inhalte für Unterseiten
+## Veröffentlichung
+
+Der Ordner `site/` enthält den vollständig erzeugten statischen Stand. GitHub Pages
+liefert ausschließlich diesen Ordner aus; ein zusätzlicher Build oder externer Dienst
+ist dafür nicht erforderlich.

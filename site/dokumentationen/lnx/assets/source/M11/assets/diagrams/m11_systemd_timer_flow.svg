@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="260" viewBox="0 0 980 260">
+<style>
+.box{fill:#0f172a;stroke:#38bdf8;stroke-width:2;rx:14;}
+.txt{fill:#f8fafc;font:16px Arial,sans-serif;}
+.small{fill:#cbd5e1;font:13px Arial,sans-serif;}
+.arrow{stroke:#38bdf8;stroke-width:3;marker-end:url(#m);}
+</style>
+<defs><marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#38bdf8"/></marker></defs>
+<rect width="980" height="260" fill="#020617"/>
+<rect x="40" y="70" width="190" height="90" class="box"/>
+<text x="65" y="105" class="txt">m11_healthcheck.sh</text><text x="65" y="130" class="small">df · free · uptime · failed units</text>
+<line x1="230" y1="115" x2="330" y2="115" class="arrow"/>
+<rect x="340" y="70" width="220" height="90" class="box"/>
+<text x="365" y="105" class="txt">m11-healthcheck.service</text><text x="365" y="130" class="small">Type=oneshot · User=student</text>
+<line x1="560" y1="115" x2="660" y2="115" class="arrow"/>
+<rect x="670" y="70" width="230" height="90" class="box"/>
+<text x="695" y="105" class="txt">m11-healthcheck.timer</text><text x="695" y="130" class="small">OnBootSec · OnUnitActiveSec</text>
+<line x1="450" y1="160" x2="450" y2="215" class="arrow"/>
+<rect x="285" y="215" width="330" height="35" class="box"/>
+<text x="315" y="238" class="small">Validierung über journalctl und m11_healthcheck.log</text>
+</svg>

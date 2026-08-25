@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="360" viewBox="0 0 980 360">
+<style>
+  .bg{fill:#0f172a}.box{fill:#1e293b;stroke:#38bdf8;stroke-width:2;rx:16}.muted{fill:#94a3b8;font:14px Arial}.title{fill:#f8fafc;font:bold 18px Arial}.text{fill:#e2e8f0;font:15px Arial}.arrow{stroke:#38bdf8;stroke-width:3;marker-end:url(#arrow)}
+</style>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L8,3 z" fill="#38bdf8"/></marker></defs>
+<rect class="bg" width="980" height="360"/>
+<text x="40" y="42" class="title">M05 Kompetenzfluss: Benutzer, Gruppen und Rechte</text>
+<rect x="40" y="80" width="170" height="80" class="box"/><text x="65" y="113" class="title">m05alice</text><text x="65" y="138" class="muted">Testbenutzer</text>
+<rect x="40" y="205" width="170" height="80" class="box"/><text x="65" y="238" class="title">m05bob</text><text x="65" y="263" class="muted">Testbenutzer</text>
+<rect x="300" y="142" width="180" height="80" class="box"/><text x="335" y="175" class="title">m05team</text><text x="325" y="200" class="muted">gemeinsame Gruppe</text>
+<rect x="590" y="120" width="310" height="125" class="box"/><text x="625" y="154" class="title">/srv/m05-projekt</text><text x="625" y="183" class="text">root:m05team</text><text x="625" y="207" class="text">Modus 2770 / setgid</text><text x="625" y="231" class="muted">Zugriff nur root + m05team</text>
+<path d="M210 120 L300 170" class="arrow"/><path d="M210 245 L300 195" class="arrow"/><path d="M480 182 L590 182" class="arrow"/>
+<rect x="300" y="270" width="230" height="55" class="box"/><text x="325" y="302" class="text">student außerhalb m05team</text>
+<path d="M530 298 L635 245" stroke="#ef4444" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<text x="610" y="300" class="muted">direkter Zugriff verweigert</text>
+</svg>

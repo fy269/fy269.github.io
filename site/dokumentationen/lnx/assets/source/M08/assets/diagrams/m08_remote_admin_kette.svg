@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360">
+<rect width="900" height="360" rx="24" fill="#0f172a"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#38bdf8"/></marker></defs>
+<g font-family="Arial, sans-serif" fill="#f8fafc">
+<text x="36" y="44" font-size="24" font-weight="700">M08 Remote-Admin-Kette</text>
+<rect x="50" y="95" width="250" height="110" rx="14" fill="#1e293b" stroke="#38bdf8"/>
+<text x="75" y="130" font-size="20" font-weight="700">Debian debian13</text>
+<text x="75" y="160" font-size="15">Quelle: 10.100.20.43</text>
+<text x="75" y="185" font-size="15">ip · ping · getent · ss · ssh</text>
+<rect x="600" y="95" width="250" height="110" rx="14" fill="#1e293b" stroke="#38bdf8"/>
+<text x="625" y="130" font-size="20" font-weight="700">Rocky rocky9</text>
+<text x="625" y="160" font-size="15">Ziel: 10.100.20.36</text>
+<text x="625" y="185" font-size="15">authorized_keys · scp · rsync</text>
+<line x1="310" y1="135" x2="590" y2="135" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="365" y="120" font-size="15" fill="#bae6fd">SSH-Key-Login</text>
+<line x1="310" y1="165" x2="590" y2="165" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="382" y="188" font-size="15" fill="#bae6fd">scp / rsync</text>
+<rect x="160" y="255" width="580" height="58" rx="14" fill="#111827" stroke="#334155"/>
+<text x="190" y="290" font-size="16">Dry-Run vor echtem Sync · Remote-Validierung · keine Private Keys veröffentlichen</text>
+</g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650"><style>
+.bg{fill:#0f172a}.card{fill:#111827;stroke:#38bdf8;stroke-width:2;rx:12}.card2{fill:#172033;stroke:#94a3b8;stroke-width:1.5;rx:10}.title{font:700 24px Arial;fill:#f8fafc}.txt{font:15px Arial;fill:#e5e7eb}.small{font:12px Arial;fill:#cbd5e1}.accent{fill:#38bdf8}.line{stroke:#38bdf8;stroke-width:3}.dash{stroke:#94a3b8;stroke-width:2;stroke-dasharray:6 6}.muted{fill:#94a3b8}</style>
+<rect class="bg" width="1200" height="650"/>
+<text x="60" y="55" class="title">BranchCache-Konzept im Labor</text>
+<rect x="80" y="120" width="300" height="230" class="card"/>
+<text x="115" y="165" class="title">Server1</text>
+<text x="115" y="205" class="txt">Content Server</text>
+<text x="115" y="235" class="small">Freigabe: BCDaten</text>
+<text x="115" y="260" class="small">Hashveröffentlichung per GPO</text>
+<text x="115" y="285" class="small">QoS-Test: 1 MB/s</text>
+<rect x="450" y="120" width="300" height="230" class="card"/>
+<text x="485" y="165" class="title">Server3</text>
+<text x="485" y="205" class="txt">Hosted Cache Server</text>
+<text x="485" y="235" class="small">Enable-BCHostedServer</text>
+<text x="485" y="260" class="small">SCP-Registrierung</text>
+<text x="485" y="285" class="small">Clientauthentifizierung: Domain</text>
+<rect x="820" y="120" width="300" height="230" class="card"/>
+<text x="855" y="165" class="title">W11</text>
+<text x="855" y="205" class="txt">BranchCache Client</text>
+<text x="855" y="235" class="small">GPO BC-Clients</text>
+<text x="855" y="260" class="small">Abruf über DFS/SMB</text>
+<text x="855" y="285" class="small">Validierung via PerfMon</text>
+<line x1="380" y1="235" x2="450" y2="235" class="line"/>
+<line x1="750" y1="235" x2="820" y2="235" class="line"/>
+<text x="120" y="440" class="txt">Nachweisgrenze:</text>
+<text x="120" y="472" class="small">Die Konfiguration und Kontrollpunkte sind dokumentiert. Ein belastbarer WAN-/Performancegewinn wird nicht als eindeutig gemessen behauptet.</text>
+</svg>

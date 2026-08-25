@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="220" viewBox="0 0 1400 220" role="img" aria-label="M04 Kompetenzfluss"><defs><style>.box{fill:#101827;stroke:#38bdf8;stroke-width:2;rx:14}.text{fill:#e5eefb;font:600 22px Arial}.small{fill:#a8b3c5;font:16px Arial}.arrow{stroke:#38bdf8;stroke-width:3;marker-end:url(#m)}</style><marker id="m" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#38bdf8"/></marker></defs>
+<rect x="20" y="60" width="170" height="90" class="box"/><text x="105" y="96" text-anchor="middle" class="text">Status</text><text x="105" y="122" text-anchor="middle" class="small">vorher prüfen</text>
+<line x1="190" y1="105" x2="240" y2="105" class="arrow"/>
+<rect x="245" y="60" width="170" height="90" class="box"/><text x="330" y="96" text-anchor="middle" class="text">Metadaten</text><text x="330" y="122" text-anchor="middle" class="small">apt/dnf info</text>
+<line x1="415" y1="105" x2="465" y2="105" class="arrow"/>
+<rect x="470" y="60" width="170" height="90" class="box"/><text x="555" y="96" text-anchor="middle" class="text">Install</text><text x="555" y="122" text-anchor="middle" class="small">Abhängigkeiten</text>
+<line x1="640" y1="105" x2="690" y2="105" class="arrow"/>
+<rect x="695" y="60" width="170" height="90" class="box"/><text x="780" y="96" text-anchor="middle" class="text">Validierung</text><text x="780" y="122" text-anchor="middle" class="small">dpkg/rpm</text>
+<line x1="865" y1="105" x2="915" y2="105" class="arrow"/>
+<rect x="920" y="60" width="170" height="90" class="box"/><text x="1005" y="96" text-anchor="middle" class="text">Logs</text><text x="1005" y="122" text-anchor="middle" class="small">History/Audit</text>
+<line x1="1090" y1="105" x2="1140" y2="105" class="arrow"/>
+<rect x="1145" y="60" width="230" height="90" class="box"/><text x="1260" y="96" text-anchor="middle" class="text">Korrektur</text><text x="1260" y="122" text-anchor="middle" class="small">Undo/Restore</text></svg>

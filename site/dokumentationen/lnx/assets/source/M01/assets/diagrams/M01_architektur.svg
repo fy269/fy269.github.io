@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+<style>
+.bg{fill:#0f172a}.box{fill:#111827;stroke:#38bdf8;stroke-width:2;rx:18}.box2{fill:#132238;stroke:#7dd3fc;stroke-width:2;rx:18}.txt{font-family:Arial, sans-serif;fill:#f8fafc}.muted{fill:#cbd5e1}.accent{fill:#38bdf8}.line{stroke:#38bdf8;stroke-width:3;marker-end:url(#arrow)}.dash{stroke:#7dd3fc;stroke-width:2;stroke-dasharray:7 7;marker-end:url(#arrow)}.small{font-size:18px}.title{font-size:28px;font-weight:700}.label{font-size:22px;font-weight:700}</style>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#38bdf8"/></marker></defs>
+<rect width="1200" height="520" class="bg"/>
+<text x="60" y="55" class="txt title">M01 Architektur – Linux-Kursumgebung im RemoteLab</text>
+<rect x="60" y="100" width="1080" height="330" fill="#0b1220" stroke="#334155" stroke-width="2" rx="24"/>
+<text x="95" y="145" class="muted small">Hyper-V / GFN-RemoteLab</text>
+<rect x="120" y="190" width="250" height="145" class="box"/>
+<text x="155" y="235" class="txt label">debian13</text>
+<text x="155" y="270" class="muted small">Debian 13.x</text>
+<text x="155" y="300" class="muted small">CLI / SSH-Server</text>
+<rect x="830" y="190" width="250" height="145" class="box2"/>
+<text x="865" y="235" class="txt label">rocky9</text>
+<text x="865" y="270" class="muted small">Rocky Linux 9.7</text>
+<text x="865" y="300" class="muted small">GUI / sshd / wheel</text>
+<rect x="475" y="70" width="250" height="120" class="box"/>
+<text x="515" y="115" class="txt label">Windows / Host</text>
+<text x="515" y="150" class="muted small">PowerShell SSH-Client</text>
+<path d="M540 190 C500 230 420 240 370 260" class="line" fill="none"/>
+<path d="M660 190 C710 230 780 240 830 260" class="line" fill="none"/>
+<path d="M370 262 C520 360 690 360 830 262" class="dash" fill="none"/>
+<text x="505" y="385" class="accent small">SSH-Verbindung Debian13 → Rocky9 validiert</text>
+<text x="115" y="465" class="muted small">Ziel von M01: Installation, Baseline, SSH-Bereitschaft und kontrollierte Verbindungstests belegen.</text>
+</svg>

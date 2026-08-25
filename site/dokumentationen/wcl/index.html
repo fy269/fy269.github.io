@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="de" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Windows-Clients im Labor – technische Dokumentation</title>
+  <meta name="description" content="Technische Dokumentation zur Bereitstellung, Standardisierung, Vernetzung, Rechteverwaltung und Absicherung von Windows-11-Clients.">
+  <meta name="theme-color" content="#12394a">
+  <script data-doc-theme-bootstrap>
+    (() => {
+      const storageKey = 'ugur-dokumentation-theme';
+      const urlTheme = new URLSearchParams(window.location.search).get('theme');
+      const hasUrlTheme = urlTheme === 'light' || urlTheme === 'dark';
+      let selectedTheme = hasUrlTheme ? urlTheme : null;
+
+      if (!selectedTheme) {
+        try {
+          const savedTheme = window.localStorage.getItem(storageKey);
+          if (savedTheme === 'light' || savedTheme === 'dark') selectedTheme = savedTheme;
+        } catch (_) {}
+      }
+
+      if (!selectedTheme) {
+        selectedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      document.documentElement.dataset.theme = selectedTheme;
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
+      document.querySelector('meta[name="theme-color"]')?.setAttribute(
+        'content',
+        selectedTheme === 'dark' ? '#0b0f14' : '#12394a'
+      );
+
+      if (hasUrlTheme) {
+        try {
+          window.localStorage.setItem(storageKey, selectedTheme);
+        } catch (_) {}
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="../shared/documentation.css">
+</head>
+<body class="documentation-example">
+  <a class="doc-skip-link" href="#dokumentation">Zum Inhalt springen</a>
+  <main id="dokumentation" class="doc-layout" data-doc-layout data-nav-open="true">
+    <button class="doc-nav-backdrop" type="button" data-nav-close aria-label="Navigation schließen"></button>
+
+    <aside id="doc-sidebar" class="doc-sidebar" aria-label="Dokumentationsnavigation">
+      <div class="doc-sidebar-head">
+        <div><p class="doc-sidebar-kicker">Windows Clients</p><strong>Technische Dokumentation</strong></div>
+        <button class="doc-sidebar-close" type="button" data-nav-close aria-label="Navigation schließen"><span aria-hidden="true">×</span></button>
+      </div>
+      <nav class="doc-tree" aria-label="Themenbereiche">
+        <details open>
+          <summary>Orientierung</summary>
+          <div class="doc-tree-group"><a class="is-current" href="#ueberblick" data-doc-nav aria-current="location">Umgebung und Arbeitsfolge</a></div>
+        </details>
+        <details open>
+          <summary>Client bereitstellen</summary>
+          <div class="doc-tree-group">
+            <a href="#block-1" data-doc-nav>Auswahl und Installation</a>
+            <a href="#block1-vorgehen" data-doc-nav>Bereitstellungsweg</a>
+            <a href="#block1-ergebnis" data-doc-nav>System- und Kontokontext</a>
+          </div>
+        </details>
+        <details>
+          <summary>Client standardisieren</summary>
+          <div class="doc-tree-group"><a href="#block-2" data-doc-nav>Updates, Geräte und Anwendungen</a></div>
+        </details>
+        <details>
+          <summary>Netzwerk und Speicher</summary>
+          <div class="doc-tree-group">
+            <a href="#block-3" data-doc-nav>Aufgabe und Arbeitsrahmen</a>
+            <a href="#block3-netzwerk" data-doc-nav>Privates Testnetz</a>
+            <a href="#block3-speicher" data-doc-nav>Datenträger und Arbeitsdaten</a>
+            <a href="#block3-bitlocker" data-doc-nav>BitLocker und Fehlerbild</a>
+          </div>
+        </details>
+        <details>
+          <summary>Benutzer und Rechte</summary>
+          <div class="doc-tree-group">
+            <a href="#block-4" data-doc-nav>Rollen und Freigaben</a>
+            <a href="#block4-zugriff" data-doc-nav>Zugriff und Fehlersuche</a>
+          </div>
+        </details>
+        <details>
+          <summary>Systemhärtung</summary>
+          <div class="doc-tree-group"><a href="#block-5" data-doc-nav>Basisschutz und Richtlinien</a></div>
+        </details>
+        <details>
+          <summary>Technische Ergebnisse</summary>
+          <div class="doc-tree-group"><a href="#fazit" data-doc-nav>Ergebnisse der fünf Arbeitsblöcke</a></div>
+        </details>
+      </nav>
+    </aside>
+
+    <section class="doc-stage">
+      <div class="doc-toolbar" aria-label="Dokumentationswerkzeuge">
+        <button class="doc-nav-toggle" type="button" data-nav-toggle aria-controls="doc-sidebar" aria-expanded="true">
+          <span class="doc-nav-toggle-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span data-nav-label>Navigation einklappen</span>
+        </button>
+        <span class="doc-toolbar-context">Windows Clients · fünf Arbeitsblöcke</span>
+        <div class="doc-toolbar-actions">
+          <a class="doc-overview-link" href="../index.html">Zur Dokumentübersicht</a>
+          <div class="doc-theme-control" aria-labelledby="doc-theme-label">
+            <span id="doc-theme-label" class="doc-theme-label">Darstellung</span>
+            <div class="doc-theme-options" role="group" aria-label="Farbschema wählen">
+              <button type="button" data-theme-option="light" aria-pressed="false"><span aria-hidden="true">☀</span>Hell</button>
+              <button type="button" data-theme-option="dark" aria-pressed="false"><span aria-hidden="true">◐</span>Dunkel</button>
+            </div>
+            <span class="doc-theme-status" data-theme-status aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+
+      <article class="doc-article">
+        <header id="ueberblick" class="doc-document-header doc-observed-section">
+          <p class="doc-document-type">Technische Dokumentation · Windows 11 · Hyper-V</p>
+          <h1>Windows-Clients im Labor: bereitstellen, standardisieren und absichern</h1>
+          <p class="doc-document-summary">Fünf zusammenhängende Arbeitsblöcke führen von der virtuellen Client-Bereitstellung über Updates, Netzwerk und Speicher bis zu Berechtigungen und Basishärtung.</p>
+        </header>
+
+        <section class="doc-section doc-observed-section" aria-labelledby="ueberblick-title">
+          <div class="doc-section-heading">
+            <p class="doc-section-number" aria-hidden="true">00</p>
+            <div><p class="doc-kicker">Orientierung</p><h2 id="ueberblick-title">Umgebung und technische Arbeitsfolge</h2></div>
+          </div>
+          <div class="doc-intro-grid">
+            <div class="doc-copy">
+              <p>Die Arbeiten entstanden in virtuellen Windows-11-Laborumgebungen auf Hyper-V. Im Mittelpunkt standen nachvollziehbare Entscheidungen, kontrollierte Änderungen und die Prüfung sichtbarer Zustände.</p>
+              <p>Die Kapitel folgen dem technischen Lebenszyklus eines Clients: Installation, Nachbereitung, Konnektivität und Speicher, Rechtekonzept sowie lokale Sicherheitsmaßnahmen.</p>
+            </div>
+            <aside class="doc-context-card" aria-label="Dokumentationsumfang">
+              <dl>
+                <div><dt>Plattform</dt><dd>Microsoft Hyper-V</dd></div>
+                <div><dt>Clients</dt><dd>Windows 11 Pro in virtuellen Laboren</dd></div>
+                <div><dt>Schwerpunkte</dt><dd>Rollout, Updates, Netzwerk, Speicher, Rechte, Sicherheit</dd></div>
+                <div><dt>Arbeitsweise</dt><dd>Aufbau, Konfiguration, Prüfung und Fehlersuche</dd></div>
+              </dl>
+            </aside>
+          </div>
+        </section>
+
+        <section id="block-1" class="doc-section doc-observed-section" aria-labelledby="block1-title">
+          <div class="doc-section-heading">
+            <p class="doc-section-number" aria-hidden="true">01</p>
+            <div>
+              <p class="doc-kicker">Client-Bereitstellung</p>
+              <h2 id="block1-title">Windows 11 Pro als virtuelle Arbeitsbasis</h2>
+              <p class="doc-section-intro">Der erste Block dokumentiert Auswahl, Neuinstallation und Ersteinrichtung eines Windows-11-Clients in Hyper-V.</p>
+            </div>
+          </div>
+          <div class="doc-intro-grid">
+            <div class="doc-copy">
+              <h3>Ziel und Praxisbezug</h3>
+              <p>Eine definierte Neuinstallation schafft eine kontrollierbare Ausgangsbasis für weitere Konfigurations-, Netzwerk- und Sicherheitsaufgaben. Windows 11 Pro wurde gewählt, weil diese Edition besser zu einem verwaltbaren Laborclient passt als eine reine Home-Edition.</p>
+              <p>Vorgesehen waren eine Generation-2-VM, 4096 MB Arbeitsspeicher, zwei virtuelle Prozessoren, ein Windows-11-Installationsmedium und eine benutzerdefinierte Neuinstallation.</p>
+            </div>
+            <aside class="doc-context-card" aria-label="Bereitstellungsrahmen">
+              <dl>
+                <div><dt>Hypervisor</dt><dd>Hyper-V</dd></div>
+                <div><dt>VM-Typ</dt><dd>Generation 2</dd></div>
+                <div><dt>Installation</dt><dd>Benutzerdefinierte Neuinstallation</dd></div>
+                <div><dt>Konto</dt><dd>Lokales Konto; vertrauliche Angaben nicht dargestellt</dd></div>
+              </dl>
+            </aside>
+          </div>
+
+          <div id="block1-vorgehen" class="doc-module-content doc-observed-section">
+            <h3>Bereitstellungsweg</h3>
+            <ol class="doc-process">
+              <li><div class="doc-process-marker" aria-hidden="true">1</div><div class="doc-process-body"><h3>Virtuelle Maschine beginnen</h3><p>Im Hyper-V-Manager wurde der Assistent für einen neuen virtuellen Computer geöffnet.</p>
+    <figure id="wcl-b1-01" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 01</span><strong>Start des VM-Assistenten</strong></div>
+      <img src="assets/B1-01_HyperV_Neue_VM_Aktion.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Hyper-V-Manager mit geöffnetem Menü für einen neuen virtuellen Computer">
+      <figcaption>Im Hyper-V-Manager ist im Aktionsmenü „Virtueller Computer“ für eine neue VM ausgewählt.</figcaption>
+    </figure></div></li>
+              <li><div class="doc-process-marker" aria-hidden="true">2</div><div class="doc-process-body"><h3>Grundkonfiguration festlegen</h3><p>Der Assistent zeigt eine Generation-2-VM mit 4096 MB RAM, virtueller Festplatte und eingebundenem ISO. In diesem Zwischenstand heißt die VM noch <code>Win11</code>.</p>
+    <figure id="wcl-b1-02" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 02</span><strong>Zusammenfassung der VM-Erstellung</strong></div>
+      <img src="assets/B1-02_HyperV_VM_Zusammenfassung.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Hyper-V-Assistent mit VM Win11, Generation 2 und 4096 MB Arbeitsspeicher">
+      <figcaption>Der Assistent fasst Win11 als Generation-2-VM mit 4096 MB, virtueller Festplatte und Installations-ISO zusammen.</figcaption>
+    </figure></div></li>
+              <li><div class="doc-process-marker" aria-hidden="true">3</div><div class="doc-process-body"><h3>Sicherheitsrelevante VM-Einstellungen prüfen</h3><p>Als Konfiguration sind Sicherer Start und TPM festgehalten. Die gezeigte Einstellung nennt Sicherer Start und einen virtuellen Prozessor, enthält aber keinen TPM-Eintrag. Wie sich dieser Stand zu den vorgesehenen zwei virtuellen Prozessoren entwickelt hat, ist nicht festgehalten.</p>
+    <figure id="wcl-b1-03" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 03</span><strong>Hyper-V-Einstellungen der VM</strong></div>
+      <img src="assets/B1-03_HyperV_Sicherheit_TPM_SecureBoot.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Hyper-V-Einstellungen von Win11 mit aktiviertem Sicherem Start und einem virtuellen Prozessor">
+      <figcaption>„Sicherer Start“ ist aktiviert; im Navigationsbaum ist ein virtueller Prozessor angegeben. Ein TPM-Eintrag ist nicht zu sehen.</figcaption>
+    </figure></div></li>
+              <li><div class="doc-process-marker" aria-hidden="true">4</div><div class="doc-process-body"><h3>Edition und Installationsweg auswählen</h3><p>Im Windows-Setup wurde Windows 11 Pro ausgewählt und als Neuinstallation auf nicht zugewiesenem Speicherplatz vorbereitet.</p>
+    <figure id="wcl-b1-04" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 04</span><strong>Windows 11 Pro ausgewählt</strong></div>
+      <img src="assets/B1-04_Windows_Setup_Edition_Windows11Pro.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-Setup mit ausgewählter Edition Windows 11 Pro">
+      <figcaption>Windows 11 Pro ist in der Editionsliste markiert.</figcaption>
+    </figure>
+    <figure id="wcl-b1-05" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 05</span><strong>Benutzerdefinierte Neuinstallation</strong></div>
+      <img src="assets/B1-05_Windows_Setup_Benutzerdefiniert_Neuinstallation.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-Setup mit den Optionen Upgrade und benutzerdefinierte Installation">
+      <figcaption>Der Installationsdialog bietet Upgrade und benutzerdefinierte Neuinstallation.</figcaption>
+    </figure>
+    <figure id="wcl-b1-06" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 06</span><strong>Leerer Zieldatenträger</strong></div>
+      <img src="assets/B1-06_Windows_Setup_Zieldatentraeger.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-Setup mit 127 Gigabyte nicht zugewiesenem Speicherplatz">
+      <figcaption>127,0 GB nicht zugewiesener Speicherplatz stehen als Installationsziel bereit.</figcaption>
+    </figure></div></li>
+              <li><div class="doc-process-marker" aria-hidden="true">5</div><div class="doc-process-body"><h3>Ersteinrichtung durchführen</h3><p>Die regionale OOBE-Einrichtung wurde durchlaufen und ein lokales Benutzerkonto angelegt. Sicherheitsfragen und Kennwortdetails sind nicht dargestellt.</p>
+    <figure id="wcl-b1-07" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 07</span><strong>Regionale Ersteinrichtung</strong></div>
+      <img src="assets/B1-07_OOBE_Region_Deutsch.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-11-Ersteinrichtung mit ausgewählter Region Deutschland">
+      <figcaption>Deutschland ist im OOBE-Dialog als Region ausgewählt.</figcaption>
+    </figure></div></li>
+            </ol>
+          </div>
+
+          <div id="block1-ergebnis" class="doc-module-content doc-observed-section">
+            <h3>System- und Kontokontext</h3>
+            <p>Die Systemansichten nennen später <code>Win11Pro</code> als Gerätenamen, kennzeichnen das System als virtuelle Maschine, zeigen ein lokales Konto und weisen auf die fehlende Windows-Aktivierung hin. Die separate Editionsauswahl enthält Windows 11 Pro. Ob <code>Win11</code> und <code>Win11Pro</code> durch Umbenennung oder Neuerstellung verbunden sind, bleibt ungeklärt.</p>
+            <p>Für das System wurden außerdem Version 21H2, Build 22000.194, ein x64-System und ein Workgroup-Kontext festgehalten. Der gezeigte Kontenausschnitt enthält diese Angaben nicht und nennt weder Windows-Version noch Buildnummer.</p>
+            <p>Die Installation führte zu einem startfähigen Client, der anschließend für Updates sowie Netzwerk-, Rechte- und Sicherheitsübungen verwendet wurde.</p>
+            <div class="doc-evidence-list">
+
+    <figure id="wcl-b1-08" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 08</span><strong>Systemseite des Laborclients</strong></div>
+      <img src="assets/B1-08_Windows11_Systemseite_Info.png" width="1340" height="930" loading="lazy" decoding="async" alt="Windows-11-Systemseite mit Gerätename Win11Pro und Hinweis, dass Windows nicht aktiviert ist">
+      <figcaption>Die Systemseite nennt Win11Pro als Gerätenamen, „Virtual Machine“ als Modell und zeigt, dass Windows nicht aktiviert ist.</figcaption>
+    </figure>
+
+    <figure id="wcl-b1-09" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 09</span><strong>Lokaler Kontokontext</strong></div>
+      <img src="assets/B1-09_Windows11_About_Dialog.png" width="610" height="535" loading="lazy" decoding="async" alt="Ausschnitt der Windows-Einstellungen mit lokalem Benutzerkonto und Systemnavigation">
+      <figcaption>Der Ausschnitt zeigt ein lokales Konto und die Systemnavigation, jedoch weder Windows-Version noch Buildnummer.</figcaption>
+    </figure>
+            </div>
+            <aside id="block1-grenze" class="doc-boundary-card" aria-label="Technische Grenzen der Bereitstellung">
+              <div><p class="doc-kicker">Technische Grenze</p><h3>Unterschiedliche Systemstände</h3></div>
+              <p>Die Ansichten enthalten die Namen <code>Win11</code> und <code>Win11Pro</code>, aber keinen Umbenennungs- oder Neuerstellungsschritt. Sicherer Start ist erkennbar; TPM, Version und Build sind in diesen Ansichten nicht enthalten.</p>
+            </aside>
+          </div>
+        </section>
+
+        <section id="block-2" class="doc-section doc-observed-section" aria-labelledby="block2-title">
+          <div class="doc-section-heading">
+            <p class="doc-section-number" aria-hidden="true">02</p>
+            <div><p class="doc-kicker">Post-Install-Standardisierung</p><h2 id="block2-title">Den frisch installierten Client nachbereiten</h2><p class="doc-section-intro">Updates, Geräteprüfung, Browser-Setup und eine kleine App-Bereinigung bilden den dokumentierten Grundzustand vor weiteren Laboraufgaben.</p></div>
+          </div>
+          <div class="doc-intro-grid">
+            <div class="doc-copy">
+              <h3>Standardisierungsschritte nach der Installation</h3>
+              <ul>
+                <li>Windows Update und Updateverlauf geprüft</li>
+                <li>virtuelle Geräte und Treiber im Geräte-Manager kontrolliert; dabei wurden keine auffälligen kritischen Warnsymbole festgehalten</li>
+                <li>zentrale Systemeinstellungen gesichtet</li>
+                <li>Mozilla Firefox installiert, gestartet und als Standardbrowser festgelegt</li>
+                <li>Browser-Basiseinstellungen geprüft</li>
+                <li>nicht benötigte Xbox-App entfernt</li>
+              </ul>
+              <p>Diese Nachbereitung ist von späterer Systemhärtung getrennt: Der Block schafft einen nutzbaren Laborzustand, keine vollständige Sicherheitsbaseline.</p>
+            </div>
+            <aside class="doc-context-card" aria-label="Arbeitsschritte in Block 2">
+              <dl>
+                <div><dt>Updateprüfung</dt><dd>2 erhaltene Ansichten</dd></div>
+                <div><dt>Weitere Schritte</dt><dd>Geräte-Manager, Browser und App-Bereinigung</dd></div>
+                <div><dt>Abgrenzung</dt><dd>Keine vollständige Härtung</dd></div>
+              </dl>
+            </aside>
+          </div>
+          <div class="doc-evidence-list">
+
+    <figure id="wcl-b2-01" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 10</span><strong>Windows Update mit gemischtem Stand</strong></div>
+      <img src="assets/B2-01_WindowsUpdate_AufDemNeuestenStand.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows Update mit Überschrift Sie sind auf dem neuesten Stand und gleichzeitigem Warnhinweis zu wichtigen Sicherheitsupdates">
+      <figcaption>Die Seite zeigt zugleich „Sie sind auf dem neuesten Stand“ und einen Warnhinweis zu wichtigen Sicherheitsupdates.</figcaption>
+    </figure>
+
+    <figure id="wcl-b2-02" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 11</span><strong>Updateverlauf mit neun Qualitätsupdates</strong></div>
+      <img src="assets/B2-02_WindowsUpdate_Updateverlauf_Erfolgreich.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-Updateverlauf mit neun als erfolgreich installiert angezeigten Qualitätsupdates">
+      <figcaption>Neun Qualitätsupdates sind mit Installationsdatum 21.04.2026 als erfolgreich aufgeführt.</figcaption>
+    </figure>
+          </div>
+          <aside id="block2-grenze" class="doc-boundary-card" aria-label="Umfang der Updateansichten">
+            <div><p class="doc-kicker">Technische Grenze</p><h3>Weitere Schritte ohne Einzelbilder</h3></div>
+            <p>Die beiden Ansichten betreffen ausschließlich Windows Update. Geräte-Manager, Systemeinstellungen, Firefox-Installation, Standardbrowser, Browsereinstellungen und App-Bereinigung wurden ebenfalls bearbeitet; dazu sind keine eigenen PNGs vorhanden.</p>
+          </aside>
+        </section>
+
+        <section id="block-3" class="doc-section doc-observed-section" aria-labelledby="block3-title">
+          <div class="doc-section-heading">
+            <p class="doc-section-number" aria-hidden="true">03</p>
+            <div><p class="doc-kicker">Netzwerk und Speicher</p><h2 id="block3-title">Zwei Clients verbinden und Arbeitsdaten absichern</h2><p class="doc-section-intro">Der Block verbindet ein isoliertes IPv4-Testnetz mit einer getrennten Speicheraufgabe auf einer eigenen VM.</p></div>
+          </div>
+          <div class="doc-intro-grid">
+            <div class="doc-copy">
+              <p>Im Netzwerkteil wurden zwei Windows-11-Clients über den virtuellen Switch <code>Privat1</code> verbunden, statisch adressiert und in beide Richtungen geprüft. Im Speicherteil wurde eine separate VM mit rund 80 GB bereitgestellt, in System- und Arbeitsdatenbereich aufgeteilt und der Status von BitLocker dokumentiert.</p>
+            </div>
+            <aside class="doc-context-card" aria-label="Adressen und Speicherziel">
+              <dl>
+                <div><dt>cl01</dt><dd>192.168.50.11 /24</dd></div>
+                <div><dt>cl02</dt><dd>192.168.50.12 /24</dd></div>
+                <div><dt>Netz</dt><dd>isolierter virtueller Switch</dd></div>
+                <div><dt>Speicher</dt><dd>Systembereich plus Arbeitsdaten (D:)</dd></div>
+              </dl>
+            </aside>
+          </div>
+          <div class="doc-evidence-list">
+
+    <figure id="wcl-b3-01" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 12</span><strong>Aufgabenstellung für die Speicherübung</strong></div>
+      <img src="assets/B3-01_GFN_Folie06_Aufgabenstellung.png" width="1920" height="1152" loading="lazy" decoding="async" alt="Schulungsfolie mit Aufgabe, Windows 11 auf 80 Gigabyte in zwei 40-Gigabyte-Bereiche aufzuteilen und Arbeitsdaten zu verschlüsseln">
+      <figcaption>Die Schulungsfolie fordert zwei 40-GB-Bereiche und eine Verschlüsselung der Arbeitsdaten. Sie zeigt die Aufgabenstellung, nicht das Arbeitsergebnis.</figcaption>
+    </figure>
+          </div>
+
+          <div id="block3-netzwerk" class="doc-module-content doc-observed-section">
+            <h3>Privates Testnetz und Konnektivität</h3>
+            <p>Für die Client-zu-Client-Kommunikation wurde ein isoliertes virtuelles Netz vorgesehen. Der erste Dialog zeigt noch keinen fertigen privaten Switch; die spätere Adapteransicht weist jedoch die Bindung an <code>Privat1</code> nach.</p>
+            <p>Der erste Ping schlug fehl. Nach dem Freigeben eingehender ICMPv4-Echoanfragen antworteten beide Clients. Gateway und DNS waren für die isolierte Direktkommunikation nicht vorgesehen; die beidseitigen Ping-Ergebnisse betreffen ausschließlich dieses Labornetz.</p>
+            <div class="doc-evidence-list">
+
+    <figure id="wcl-b3-02" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 13</span><strong>Dialog zur Switch-Erstellung</strong></div>
+      <img src="assets/B3-02_HyperV_Privater_Switch.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Hyper-V-Dialog zum Erstellen eines virtuellen Switches mit vorausgewähltem Typ Extern">
+      <figcaption>Im Erstellungsdialog ist „Extern“ vorausgewählt; ein fertig angelegter privater Switch ist nicht zu sehen.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-03" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 14</span><strong>Netzwerkadapter an Privat1</strong></div>
+      <img src="assets/B3-03_HyperV_Zusaetzlicher_Adapter_CL01.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Hyper-V-Einstellungen von Win11Cl01 mit einer Netzwerkkarte am virtuellen Switch Privat1">
+      <figcaption>Die Netzwerkkarte von Win11Cl01 ist mit dem virtuellen Switch Privat1 verbunden.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-04" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 15</span><strong>IPv4-Konfiguration von cl01</strong></div>
+      <img src="assets/B3-04_IPConfig_CL01.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Eingabeaufforderung auf cl01 mit ipconfig all und IPv4-Adresse 192.168.50.11">
+      <figcaption>cl01 verwendet 192.168.50.11 mit 255.255.255.0 und ohne Standardgateway.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-05" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 16</span><strong>IPv4-Konfiguration von cl02</strong></div>
+      <img src="assets/B3-05_IPConfig_CL02.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Eingabeaufforderung auf cl02 mit ipconfig all und IPv4-Adresse 192.168.50.12">
+      <figcaption>cl02 verwendet 192.168.50.12 mit 255.255.255.0 und ohne Standardgateway.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-06" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 17</span><strong>ICMPv4-Regel per netsh</strong></div>
+      <img src="assets/B3-06_Firewall_ICMP_Regel.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Administrative Eingabeaufforderung mit erfolgreichem netsh-Befehl zum Zulassen eingehender ICMPv4-Echoanfragen">
+      <figcaption>Eine eingehende ICMPv4-Regel wird per netsh advfirewall hinzugefügt; die Ausgabe lautet „OK.“</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-07" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 18</span><strong>Ping von cl02 zu cl01</strong></div>
+      <img src="assets/B3-07_Ping_CL02_zu_CL01.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Ping von cl02 an 192.168.50.11 mit vier Antworten und null Prozent Verlust">
+      <figcaption>Der Ping an 192.168.50.11 liefert vier Antworten ohne Paketverlust.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-08" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 19</span><strong>Ping von cl01 zu cl02</strong></div>
+      <img src="assets/B3-08_Ping_CL01_zu_CL02.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Ping von cl01 an 192.168.50.12 mit vier Antworten und null Prozent Verlust">
+      <figcaption>Der Ping an 192.168.50.12 liefert vier Antworten ohne Paketverlust.</figcaption>
+    </figure>
+            </div>
+            <pre><code>ipconfig /all
+netsh advfirewall firewall add rule name="ICMPv4 Ping Allow" protocol=icmpv4:8,any dir=in action=allow
+ping 192.168.50.11
+ping 192.168.50.12</code></pre>
+          </div>
+
+          <div id="block3-speicher" class="doc-module-content doc-observed-section">
+            <h3>Datenträger und Arbeitsdaten</h3>
+            <p>Eine separate VM <code>Win11DataLab</code> hielt Netzwerk- und Speicheraufgabe sauber getrennt. Der 80-GB-Datenträger wurde im Setup in einen Systembereich von 39,9 GB und 40,0 GB freien Bereich aufgeteilt.</p>
+            <div class="doc-evidence-list">
+
+    <figure id="wcl-b3-09" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 20</span><strong>Separate VM für die Speicheraufgabe</strong></div>
+      <img src="assets/B3-09_HyperV_Win11DataLab_VM.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Hyper-V-Assistent mit der VM Win11DataLab, Generation 2 und 4096 MB Arbeitsspeicher">
+      <figcaption>Der Assistent fasst Win11DataLab als Generation-2-VM mit 4096 MB und Installations-ISO zusammen.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-10" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 21</span><strong>Aufteilung im Windows-Setup</strong></div>
+      <img src="assets/B3-10_Setup_Partitionierung_40_40.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-Setup mit 39,9 Gigabyte Primärpartition, 40 Gigabyte nicht zugewiesenem Bereich und Warnung zu 52 Gigabyte Mindestgröße">
+      <figcaption>Windows Setup zeigt 39,9 GB Primärpartition und 40,0 GB nicht zugewiesenen Speicher; zugleich fordert die Warnung mindestens 52 GB für das Systemlaufwerk.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-11" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 22</span><strong>Freier Bereich vor der Volume-Erstellung</strong></div>
+      <img src="assets/B3-11_Datentraegerverwaltung_40GB_unzugeordnet.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-Datenträgerverwaltung mit 39,29 Gigabyte Systempartition und 40 Gigabyte nicht zugeordnetem Bereich">
+      <figcaption>Die Datenträgerverwaltung zeigt 40,00 GB nicht zugeordneten Speicher und ein eingebundenes DVD-Laufwerk.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-12" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 23</span><strong>Arbeitsdaten-Volume angelegt</strong></div>
+      <img src="assets/B3-12_Datentraegerverwaltung_Arbeitsdaten_D.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Datenträgerverwaltung mit dem 40-Gigabyte-NTFS-Volume Arbeitsdaten D">
+      <figcaption>Arbeitsdaten (D:) ist als NTFS-Volume mit 40,00 GB angelegt.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-13" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 24</span><strong>Laufwerksstruktur im Explorer</strong></div>
+      <img src="assets/B3-13_Explorer_Arbeitsdaten_D.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-Explorer mit lokalem Datenträger C, Arbeitsdaten D und DVD-Laufwerk Z">
+      <figcaption>Explorer zeigt C:, Arbeitsdaten (D:) und das eingebundene DVD-Laufwerk Z:.</figcaption>
+    </figure>
+            </div>
+          </div>
+
+          <div id="block3-bitlocker" class="doc-module-content doc-observed-section">
+            <h3>BitLocker: Fehlerbild, Zwischenzustand und späterer Status</h3>
+            <p>Die Bildfolge hält drei getrennte Zustände fest: eine BitLocker-Fehlermeldung am Systemlaufwerk, ein weiterhin gemountetes ISO in Hyper-V und einen späteren BitLocker-Stand für das Datenlaufwerk. Das Installationsmedium wurde zur Fehlerbehebung entfernt; die mittlere Ansicht zeigt jedoch noch den Zustand davor.</p>
+            <div class="doc-evidence-list">
+
+    <figure id="wcl-b3-14" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 25</span><strong>BitLocker-Start wegen Datenträger blockiert</strong></div>
+      <img src="assets/B3-14_BitLocker_DVD_Hinweis.png" width="1920" height="1200" loading="lazy" decoding="async" alt="BitLocker-Dialog für C mit Hinweis, dass ein startbarer CD- oder DVD-Datenträger erkannt wurde">
+      <figcaption>BitLocker für C: beanstandet einen erkannten startbaren CD-/DVD-Datenträger.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-15" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 26</span><strong>ISO ist in Hyper-V noch eingebunden</strong></div>
+      <img src="assets/B3-15_HyperV_DVD_Laufwerk_Entfernt.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Hyper-V-Einstellungen von Win11DataLab mit ausgewähltem DVD-Laufwerk und eingebundener ISO-Datei">
+      <figcaption>Im Hyper-V-DVD-Laufwerk ist die ISO weiterhin eingebunden; der Entfernen-Befehl ist verfügbar, aber noch nicht ausgeführt.</figcaption>
+    </figure>
+
+    <figure id="wcl-b3-16" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 27</span><strong>BitLocker-Status des Arbeitsdatenlaufwerks</strong></div>
+      <img src="assets/B3-16_BitLocker_Arbeitsdaten_Aktiviert.png" width="1920" height="1200" loading="lazy" decoding="async" alt="BitLocker-Systemsteuerung mit deaktiviertem BitLocker auf C und aktiviertem BitLocker auf Arbeitsdaten D">
+      <figcaption>BitLocker ist für Arbeitsdaten (D:) aktiviert und für C: deaktiviert.</figcaption>
+    </figure>
+            </div>
+          </div>
+
+          <div class="doc-result-grid">
+            <div class="doc-result-card"><span>01</span><h3>Netzwerk</h3><p><code>cl01</code> und <code>cl02</code> verwenden statische IPv4-Adressen und antworten in beide Richtungen auf Ping.</p></div>
+            <div class="doc-result-card"><span>02</span><h3>Speicher</h3><p>Aus dem freien Bereich entstand das NTFS-Volume <code>Arbeitsdaten (D:)</code>.</p></div>
+            <div class="doc-result-card"><span>03</span><h3>Fehlersuche</h3><p>Eine ICMP-Regel löste die Ping-Störung; das eingebundene ISO war die Ursache des BitLocker-Fehlers.</p></div>
+          </div>
+          <aside id="block3-grenze" class="doc-boundary-card" aria-label="Zeitliche Grenzen der Netzwerk- und Speicherabbildungen">
+            <div><p class="doc-kicker">Zeitliche Einordnung</p><h3>Aufgabe, Zwischenstand und Ergebnis getrennt</h3></div>
+            <p>Die Aufgabenfolie beschreibt nur das Lernziel. Der Switch-Dialog enthält noch keinen privaten Switch. Die DVD-Entfernung selbst ist nicht abgebildet; die spätere BitLocker-Ansicht nennt D: als verschlüsselt und C: als unverschlüsselt.</p>
+          </aside>
+        </section>
+
+        <section id="block-4" class="doc-section doc-observed-section" aria-labelledby="block4-title">
+          <div class="doc-section-heading">
+            <p class="doc-section-number" aria-hidden="true">04</p>
+            <div><p class="doc-kicker">Benutzer und Rechte</p><h2 id="block4-title">Freigaben, NTFS und kontrollierter Zugriff</h2><p class="doc-section-intro">Der Block betrachtet lokale Rollen, UAC, Freigaberechte, NTFS-Berechtigungen und typische Fehler bei Netzwerkanmeldungen.</p></div>
+          </div>
+          <div class="doc-intro-grid">
+            <div class="doc-copy">
+              <p>Auf <code>cl01</code> wurde unter <code>C:&#92;Freigabe</code> eine einfache Struktur für drei Zugriffsniveaus aufgebaut. Der fachliche Kern ist die Kombination zweier Ebenen: Freigabeberechtigung wirkt beim Netzwerkzugriff, NTFS-Berechtigung auf Dateisystemebene. Die restriktivere effektive Kombination entscheidet.</p>
+              <p>Für die Tests wurden die lokalen Rollen <code>Admin</code> und <code>User</code> unterschieden. Die Benutzerkontensteuerung blieb auf der üblichen Bestätigungsstufe, sodass administrative Änderungen weiterhin bewusst freigegeben werden mussten.</p>
+            </div>
+            <aside class="doc-context-card" aria-label="Rollenmodell">
+              <dl>
+                <div><dt>Admin</dt><dd>administrativer Testzugriff</dd></div>
+                <div><dt>User</dt><dd>eingeschränkter Standardzugriff</dd></div>
+                <div><dt>Host</dt><dd>cl01</dd></div>
+                <div><dt>Gegenstelle</dt><dd>cl02</dd></div>
+              </dl>
+            </aside>
+          </div>
+
+          <div id="block4-rechte" class="doc-module-content">
+            <h3>Freigabestruktur und beabsichtigte Rechte</h3>
+            <div class="doc-table-wrap" role="region" aria-label="Freigabestruktur und Zugriffsziele" tabindex="0">
+              <table><thead><tr><th>Ordner</th><th>Zweck</th><th>Beabsichtigter Zugriff</th></tr></thead><tbody>
+                <tr><td><strong>Admin</strong></td><td>administrativer Bereich</td><td>nur administrativer Zugriff</td></tr>
+                <tr><td><strong>Austausch</strong></td><td>gemeinsamer Arbeitsbereich</td><td>lesen und schreiben</td></tr>
+                <tr><td><strong>Lesen</strong></td><td>Informationsbereich</td><td>lesen, nicht schreiben</td></tr>
+              </tbody></table>
+            </div>
+            <div class="doc-evidence-list">
+
+    <figure id="wcl-b4-01" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 28</span><strong>Freigabeberechtigungen des Admin-Ordners</strong></div>
+      <img src="assets/B4-01_Admin_Freigabeberechtigung_Final.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-Dialog mit Freigabeberechtigungen für den Ordner Admin und zwei Administratorkonten mit Vollzugriff">
+      <figcaption>Zwei Administratorkonten stehen in den Freigabeberechtigungen; für das markierte Konto sind Vollzugriff, Ändern und Lesen zugelassen.</figcaption>
+    </figure>
+
+    <figure id="wcl-b4-02" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 29</span><strong>NTFS-Berechtigungen des Admin-Ordners</strong></div>
+      <img src="assets/B4-02_Admin_NTFS_Berechtigung_Final.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-Sicherheitsdialog für C Freigabe Admin mit lokalen Benutzer- und Administratorprincipals">
+      <figcaption>Die NTFS-Sicherheitsseite von C:\Freigabe\Admin zeigt mehrere lokale Principals und die Rechte des markierten Administrators.</figcaption>
+    </figure>
+            </div>
+          </div>
+
+          <div id="block4-zugriff" class="doc-module-content doc-observed-section">
+            <h3>Zugriffstests und Fehlersuche</h3>
+            <p>Geprüft wurden Standard- und Administratorkonto: Austausch sollte beschreibbar, Lesen nur lesbar und Admin für den Standardbenutzer gesperrt sein. Bei Problemen wurden Freigabe, NTFS, verwendetes Konto und vorhandene Netzwerkanmeldungen getrennt kontrolliert.</p>
+            <ul>
+              <li>Eine zunächst verlangte Kennwortänderung des Testbenutzers wurde in den lokalen Benutzereigenschaften behandelt.</li>
+              <li>Beim verweigerten Admin-Zugriff wurden Freigabe- und NTFS-Berechtigung gemeinsam statt isoliert geprüft.</li>
+              <li>Ein falscher oder bereits zwischengespeicherter Netzwerkanmeldekontext wurde durch eine ausdrücklich angegebene lokale Admin-Identität eingegrenzt.</li>
+            </ul>
+            <pre><code>net use &#92;&#92;192.168.50.11&#92;Admin /user:CL01&#92;Admin *</code></pre>
+            <p>Nach diesen Schritten folgten User-, Nur-Lesen-, Admin- und Schreibtests. Das dritte Bild hält noch den vorausgehenden Fehlerzustand fest.</p>
+            <div class="doc-evidence-list">
+
+    <figure id="wcl-b4-03" class="doc-evidence-card">
+      <div class="doc-evidence-meta"><span>Bild 30</span><strong>Fehlgeschlagene Netzwerkanmeldung</strong></div>
+      <img src="assets/B4-03_Admin_Zugriff_und_Schreibtest_Erfolgreich.png" width="1920" height="1200" loading="lazy" decoding="async" alt="Windows-Sicherheitsdialog mit Netzwerkanmeldung zu 192.168.50.11 und Fehlermeldung, dass Benutzername oder Kennwort falsch ist">
+      <figcaption>Die Anmeldung an 192.168.50.11 ist fehlgeschlagen; Windows meldet einen falschen Benutzernamen oder ein falsches Kennwort. Ein erfolgreicher Zugriff oder Schreibtest ist nicht zu sehen.</figcaption>
+    </figure>
+            </div>
+          </div>
+
+          <aside id="block4-grenze" class="doc-boundary-card" aria-label="Grenzen der Rechteprüfung">
+            <div><p class="doc-kicker">Technische Grenze</p><h3>Fehlerbild und spätere Prüfung</h3></div>
+            <p>Die Freigabe- und NTFS-Einstellungen sind in zwei Ansichten enthalten. User-, Nur-Lesen-, Admin- und Schreibtests folgten anschließend; das dritte Bild zeigt noch die fehlgeschlagene Anmeldung und keinen erfolgreichen Endzustand.</p>
+          </aside>
+        </section>
+
+        <section id="block-5" class="doc-section doc-observed-section" aria-labelledby="block5-title">
+          <div class="doc-section-heading">
+            <p class="doc-section-number" aria-hidden="true">05</p>
+            <div><p class="doc-kicker">Systemhärtung</p><h2 id="block5-title">Windows-Sicherheitsfunktionen und lokale Richtlinien</h2><p class="doc-section-intro">Der letzte Block umfasst Basisschutz auf einer separaten Windows-11-Pro-VM. Die Einstellungen und Prüfungen sind schriftlich festgehalten; separate Screenshots liegen für diesen Arbeitsblock nicht vor.</p></div>
+          </div>
+          <div class="doc-intro-grid">
+            <div class="doc-copy">
+              <p>Der Arbeitsansatz trennt bewusst zwischen aktiv gesetzten Maßnahmen, geprüften Schutzfunktionen und Optionen, die in einer virtuellen Umgebung nicht ohne weitere Bewertung erzwungen wurden.</p>
+              <p>Damit wird Hardening nicht als Sammlung grüner Schalter behandelt, sondern als begründete Reduktion von Risiken und unnötiger Angriffsfläche.</p>
+            </div>
+            <aside class="doc-context-card" aria-label="Härtungsrahmen">
+              <dl>
+                <div><dt>Umgebung</dt><dd>separate Windows-11-Pro-VM</dd></div>
+                <div><dt>Schwerpunkt</dt><dd>Bordmittel und lokale Richtlinien</dd></div>
+                <div><dt>Arbeitsgrundlage</dt><dd>schriftlich festgehaltene Einstellungen und Prüfungen</dd></div>
+              </dl>
+            </aside>
+          </div>
+          <ol class="doc-process">
+            <li><div class="doc-process-marker" aria-hidden="true">1</div><div class="doc-process-body"><h3>Defender und Firewall</h3><p>Eine Schnellüberprüfung endete ohne gefundene Bedrohung; Schutzupdates waren vorhanden und die Firewall blieb aktiv. Domänen-, Privat- und Öffentlich-Profil wurden betrachtet.</p></div></li>
+            <li><div class="doc-process-marker" aria-hidden="true">2</div><div class="doc-process-body"><h3>SmartScreen und unerwünschte Anwendungen</h3><p>Aktiviert wurden die Prüfung von Apps und Dateien, SmartScreen für Edge und Store-Apps sowie die Blockierung potenziell unerwünschter Apps und Downloads.</p></div></li>
+            <li><div class="doc-process-marker" aria-hidden="true">3</div><div class="doc-process-body"><h3>Gerätesicherheit bewerten</h3><p>Kernisolierung, Sicherheitschip-Bezug und Sicherer Start wurden geprüft. Speicherintegrität und weitergehende Virtualisierungs- oder Treiberschutzoptionen wurden in der VM nicht pauschal erzwungen, sondern als gesondert zu bewertende Funktionen eingeordnet.</p></div></li>
+            <li><div class="doc-process-marker" aria-hidden="true">4</div><div class="doc-process-body"><h3>Kennwort- und Sperrrichtlinien</h3><p>Kennwortkomplexität wurde aktiviert, die Mindestlänge auf 10 Zeichen gesetzt und eine Kontosperrung nach 5 Fehlversuchen für 15 Minuten eingerichtet; der Zähler wird nach 15 Minuten zurückgesetzt.</p></div></li>
+            <li><div class="doc-process-marker" aria-hidden="true">5</div><div class="doc-process-body"><h3>Unnötige Zugänge begrenzen</h3><p>Remote Desktop und Remoteunterstützung blieben deaktiviert. Gastkonto und integriertes Administratorkonto blieben ebenfalls deaktiviert.</p></div></li>
+            <li><div class="doc-process-marker" aria-hidden="true">6</div><div class="doc-process-body"><h3>Schutzverlauf und Geräteintegrität lesen</h3><p>Schutzverlauf sowie Geräteleistung und -integrität wurden ohne auffällige Basisprobleme geprüft. „Sauberer Start“ wurde als Windows-Funktion eingeordnet und nicht als zusätzlich ausgeführte Maßnahme dargestellt.</p></div></li>
+          </ol>
+          <div class="doc-table-wrap" role="region" aria-label="Dokumentierte Härtungsmaßnahmen" tabindex="0">
+            <table><thead><tr><th>Bereich</th><th>Arbeitsschritt</th><th>Fachliche Idee</th></tr></thead><tbody>
+              <tr><td>Malware-Schutz</td><td>Defender prüfen, Schnellüberprüfung ausführen</td><td>Schutzstatus nicht nur anzeigen, sondern aktiv kontrollieren</td></tr>
+              <tr><td>Netzwerk</td><td>Firewall aktiv belassen und Profile prüfen</td><td>Laborkomfort nicht durch Abschalten des Basisschutzes erkaufen</td></tr>
+              <tr><td>Anwendungen</td><td>SmartScreen und PUA-Schutz</td><td>Risiko unbekannter Downloads reduzieren</td></tr>
+              <tr><td>Konten</td><td>Komplexität, Mindestlänge, Sperrlogik</td><td>Triviale Kennwörter und einfaches Durchprobieren erschweren</td></tr>
+              <tr><td>Remotezugriff</td><td>nicht benötigte Funktionen deaktiviert lassen</td><td>unnötige Angriffsfläche vermeiden</td></tr>
+            </tbody></table>
+          </div>
+          <aside id="block5-grenze" class="doc-boundary-card" aria-label="Grenzen des Härtungsblocks">
+            <div><p class="doc-kicker">Fachliche Grenze</p><h3>Lernumgebung und Prüfumfang</h3></div>
+            <p>Die Einstellungen und Prüfungen wurden in einer virtuellen Lernumgebung ausgeführt und schriftlich festgehalten. Separate Screenshots liegen für diesen Arbeitsblock nicht vor; ein Produktivbetrieb war nicht Gegenstand.</p>
+          </aside>
+        </section>
+
+        <section id="fazit" class="doc-section doc-observed-section" aria-labelledby="fazit-title">
+          <div class="doc-section-heading">
+            <p class="doc-section-number" aria-hidden="true">06</p>
+            <div><p class="doc-kicker">Technische Ergebnisse</p><h2 id="fazit-title">Ergebnisse aus Bereitstellung, Betrieb und Härtung</h2></div>
+          </div>
+          <div class="doc-result-grid">
+            <div class="doc-result-card"><span>01</span><h3>Client bereitgestellt und nachbereitet</h3><p>Windows 11 Pro wurde in Hyper-V installiert und anschließend mit Updates, Browser- und App-Schritten standardisiert.</p></div>
+            <div class="doc-result-card"><span>02</span><h3>Netzwerk, Speicher und Rechte umgesetzt</h3><p>Statische IPv4-Adressen, ein Arbeitsdaten-Volume, BitLocker sowie Freigabe- und NTFS-Rechte bilden die technischen Kernarbeiten.</p></div>
+            <div class="doc-result-card"><span>03</span><h3>Fehler systematisch eingegrenzt</h3><p>ICMP-Firewallregel, eingebundenes Installationsmedium und Netzwerkanmeldung wurden als konkrete Fehlerursachen bearbeitet.</p></div>
+          </div>
+          <aside class="doc-boundary-card" aria-label="Arbeitsumgebung der fünf Blöcke">
+            <div><p class="doc-kicker">Arbeitsumgebung</p><h3>Virtuelle Lernsysteme</h3></div>
+            <p>Die Arbeiten fanden in virtuellen Lernumgebungen statt; ein Produktivbetrieb war nicht Gegenstand. Die Härtungsschritte aus Block 5 sind schriftlich festgehalten; separate Screenshots liegen dazu nicht vor.</p>
+          </aside>
+        </section>
+      </article>
+    </section>
+  </main>
+  <script src="../shared/documentation.js"></script>
+</body>
+</html>

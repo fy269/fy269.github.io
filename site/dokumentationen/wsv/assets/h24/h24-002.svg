@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="520" viewBox="0 0 1280 520">
+  <defs>
+    <style>
+      .title{font:700 28px Arial, sans-serif;fill:#1f2937}.step{fill:#fff;stroke:#334155;stroke-width:2;rx:14}.stepA{fill:#eff6ff;stroke:#2563eb;stroke-width:2;rx:14}.stepB{fill:#ecfdf5;stroke:#059669;stroke-width:2;rx:14}.stepC{fill:#fff7ed;stroke:#ea580c;stroke-width:2;rx:14}.num{font:700 26px Arial, sans-serif;fill:#111827}.head{font:700 18px Arial, sans-serif;fill:#111827}.text{font:15px Arial, sans-serif;fill:#374151}.arrow{stroke:#334155;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 z" fill="#334155"/></marker>
+  </defs>
+  <rect width="1280" height="520" fill="#f8fafc"/>
+  <text x="40" y="50" class="title">Key-Recovery-Prozess – Rollengetrennte Wiederherstellung</text>
+  <rect x="45" y="115" width="210" height="160" class="stepA"/>
+  <text x="65" y="150" class="num">1</text><text x="105" y="148" class="head">Ausstellung</text>
+  <text x="65" y="185" class="text">KK fordert Zertifikat</text>
+  <text x="65" y="210" class="text">„Benutzer mit</text>
+  <text x="65" y="232" class="text">archiviertem Schlüssel“ an</text>
+  <rect x="305" y="115" width="210" height="160" class="step"/>
+  <text x="325" y="150" class="num">2</text><text x="365" y="148" class="head">Export</text>
+  <text x="325" y="185" class="text">MyCert.pfx wird exportiert</text>
+  <text x="325" y="210" class="text">und privater Schlüssel</text>
+  <text x="325" y="232" class="text">lokal gelöscht</text>
+  <rect x="565" y="115" width="210" height="160" class="stepB"/>
+  <text x="585" y="150" class="num">3</text><text x="625" y="148" class="head">CA-Extraktion</text>
+  <text x="585" y="185" class="text">CA-/Admin-Kontext</text>
+  <text x="585" y="210" class="text">certutil -getkey</text>
+  <text x="585" y="232" class="text">erzeugt kk.cert</text>
+  <rect x="825" y="115" width="210" height="160" class="stepC"/>
+  <text x="845" y="150" class="num">4</text><text x="885" y="148" class="head">KRA-Recovery</text>
+  <text x="845" y="185" class="text">Mary Poe / MP</text>
+  <text x="845" y="210" class="text">certutil -recoverkey</text>
+  <text x="845" y="232" class="text">rekonstruiert kk.pfx</text>
+  <rect x="1085" y="115" width="150" height="160" class="stepA"/>
+  <text x="1105" y="150" class="num">5</text><text x="1145" y="148" class="head">Import</text>
+  <text x="1105" y="185" class="text">KK importiert</text>
+  <text x="1105" y="210" class="text">PFX und besitzt</text>
+  <text x="1105" y="232" class="text">privaten Schlüssel</text>
+  <path d="M255 195 L305 195" class="arrow"/>
+  <path d="M515 195 L565 195" class="arrow"/>
+  <path d="M775 195 L825 195" class="arrow"/>
+  <path d="M1035 195 L1085 195" class="arrow"/>
+  <rect x="115" y="350" width="1050" height="90" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" rx="12"/>
+  <text x="145" y="385" class="head">Dokumentationsprinzip</text>
+  <text x="145" y="417" class="text">Die Wiederherstellung ist nicht als einzelner Admin-Klick dokumentiert, sondern als kontrollierte Kette mit getrennten Rollen, Kontextwechseln und belastbaren Endnachweisen.</text>
+</svg>

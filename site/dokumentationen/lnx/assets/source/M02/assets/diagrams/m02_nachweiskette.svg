@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="160" viewBox="0 0 1100 160">
+<style>.box{fill:#eef6ff;stroke:#2563eb;stroke-width:1.8;rx:12}.txt{font:600 15px Arial;fill:#0f172a}.sub{font:12px Arial;fill:#475569}.arr{stroke:#64748b;stroke-width:2;marker-end:url(#a)}</style>
+<defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker></defs>
+<rect class="box" x="20" y="45" width="140" height="70"/><text class="txt" x="42" y="74">Kontext</text><text class="sub" x="42" y="95">debian13/student</text>
+<line class="arr" x1="165" y1="80" x2="210" y2="80"/>
+<rect class="box" x="215" y="45" width="145" height="70"/><text class="txt" x="240" y="74">Struktur</text><text class="sub" x="238" y="95">~/linux_m02</text>
+<line class="arr" x1="365" y1="80" x2="410" y2="80"/>
+<rect class="box" x="415" y="45" width="150" height="70"/><text class="txt" x="438" y="74">Dateien/Pfade</text><text class="sub" x="440" y="95">cp, mv, find, ln</text>
+<line class="arr" x1="570" y1="80" x2="615" y2="80"/>
+<rect class="box" x="620" y="45" width="150" height="70"/><text class="txt" x="653" y="74">Validierung</text><text class="sub" x="650" y="95">nano, cat, help</text>
+<line class="arr" x1="775" y1="80" x2="820" y2="80"/>
+<rect class="box" x="825" y="45" width="210" height="70"/><text class="txt" x="850" y="74">Bash-Konfiguration</text><text class="sub" x="850" y="95">Alias + Prompt persistent</text>
+</svg>

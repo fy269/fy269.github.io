@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <defs>
+    <style>
+      .title{font:700 28px Arial, sans-serif;fill:#1f2937}.box{fill:#ffffff;stroke:#2563eb;stroke-width:2;rx:14}.box2{fill:#f8fafc;stroke:#0f766e;stroke-width:2;rx:14}.box3{fill:#fff7ed;stroke:#ea580c;stroke-width:2;rx:14}.text{font:18px Arial, sans-serif;fill:#111827}.small{font:15px Arial, sans-serif;fill:#374151}.arrow{stroke:#334155;stroke-width:3;fill:none;marker-end:url(#arrow)}.label{font:15px Arial, sans-serif;fill:#1f2937}.header{font:700 20px Arial, sans-serif;fill:#111827}
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 z" fill="#334155"/></marker>
+  </defs>
+  <rect width="1280" height="640" fill="#f3f4f6"/>
+  <text x="40" y="50" class="title">Handout 24 – PKI-Verwaltungsarchitektur</text>
+
+  <rect x="50" y="110" width="250" height="180" class="box"/>
+  <text x="75" y="145" class="header">DC</text>
+  <text x="75" y="178" class="text">AD DS / DNS / GPO</text>
+  <text x="75" y="210" class="small">• Gruppen: Smartcard, KRA</text>
+  <text x="75" y="236" class="small">• Benutzer: KK, MP</text>
+  <text x="75" y="262" class="small">• GPO: PKI Autoenrollment</text>
+
+  <rect x="405" y="100" width="300" height="220" class="box2"/>
+  <text x="430" y="135" class="header">Server2</text>
+  <text x="430" y="168" class="text">Enterprise Root CA</text>
+  <text x="430" y="196" class="small">gfnlab-ROOT-CA</text>
+  <text x="430" y="225" class="small">• Zertifikatvorlagen</text>
+  <text x="430" y="251" class="small">• CA-Backup</text>
+  <text x="430" y="277" class="small">• Schlüsselarchivierung</text>
+  <text x="430" y="303" class="small">• KRA-Vertrauen</text>
+
+  <rect x="830" y="110" width="260" height="180" class="box3"/>
+  <text x="855" y="145" class="header">Server3</text>
+  <text x="855" y="178" class="text">KRA-Arbeitskontext</text>
+  <text x="855" y="210" class="small">• Mary Poe / MP</text>
+  <text x="855" y="236" class="small">• KRA-Zertifikat</text>
+  <text x="855" y="262" class="small">• recoverkey / PFX</text>
+
+  <rect x="405" y="410" width="300" height="150" class="box"/>
+  <text x="430" y="445" class="header">W11</text>
+  <text x="430" y="478" class="text">Endbenutzer-Kontext</text>
+  <text x="430" y="510" class="small">• Karl Klammer / KK</text>
+  <text x="430" y="536" class="small">• Zertifikate / PFX-Import</text>
+
+  <path d="M300 200 C345 190 355 185 405 185" class="arrow"/><text x="315" y="174" class="label">GPO / Gruppen / Templates</text>
+  <path d="M705 190 C760 180 775 180 830 190" class="arrow"/><text x="725" y="165" class="label">KRA-Zertifikat und CA-Freigabe</text>
+  <path d="M960 290 C940 400 795 465 705 485" class="arrow"/><text x="760" y="430" class="label">wiederhergestellte PFX</text>
+  <path d="M555 320 L555 410" class="arrow"/><text x="570" y="370" class="label">Zertifikatsausstellung</text>
+</svg>

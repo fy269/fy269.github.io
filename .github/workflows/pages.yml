@@ -1,0 +1,63 @@
+name: Deploy static site to Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Validate public package
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f site/index.html
+          test -f site/assets/Lebenslauf_Ugur_Dikmen.pdf
+          test -f site/dokumentationen/index.html
+          test "$(tr -d '\r\n' < site/CNAME)" = "www.dikmenugur.com"
+          test -z "$(find site -type l -print -quit)"
+          test -z "$(find site -type f \( \
+            -name 'TRACEABILITY.md' -o \
+            -name 'TRACEABILITY.json' -o \
+            -name 'INVENTORY.json' -o \
+            -name 'SOURCE_INVENTORY.json' -o \
+            -name 'CONTENT_INVENTORY.json' -o \
+            -name 'SOURCE_INTEGRITY.json' -o \
+            -name 'CLASS_STYLE_AUDIT.json' -o \
+            -name 'README_START_HERE.md' \
+          \) -print -quit)"
+          bytes="$(du -sb site | cut -f1)"
+          test "$bytes" -lt 1073741824
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

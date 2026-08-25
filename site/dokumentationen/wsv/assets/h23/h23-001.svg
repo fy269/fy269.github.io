@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="620" viewBox="0 0 1160 620">
+<style>
+.bg{fill:#f8fafc}.box{fill:#ffffff;stroke:#334155;stroke-width:2;rx:14}.role{font:700 22px Arial;fill:#0f172a}.txt{font:16px Arial;fill:#334155}.arrow{stroke:#475569;stroke-width:2.5;marker-end:url(#m)}.note{font:14px Arial;fill:#475569}.accent{fill:#e0f2fe;stroke:#0369a1}.warn{fill:#fff7ed;stroke:#c2410c}
+</style><defs><marker id="m" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker></defs><rect width="1160" height="620" class="bg"/>
+<rect x="40" y="70" width="240" height="170" class="box accent"/><text x="70" y="110" class="role">DC</text><text x="70" y="145" class="txt">AD DS / DNS</text><text x="70" y="175" class="txt">GPO / ADSI</text><text x="70" y="205" class="txt">Public Key Services</text>
+<rect x="460" y="60" width="260" height="190" class="box accent"/><text x="490" y="100" class="role">Server2</text><text x="490" y="135" class="txt">Enterprise Root CA</text><text x="490" y="165" class="txt">gfnlab-ROOT-CA</text><text x="490" y="195" class="txt">Webregistrierung</text><text x="490" y="225" class="txt">Online Responder</text>
+<rect x="860" y="80" width="240" height="150" class="box"/><text x="890" y="120" class="role">W11</text><text x="890" y="155" class="txt">Benutzer Karl Klammer</text><text x="890" y="185" class="txt">Benutzerzertifikat</text><text x="890" y="215" class="txt">Root-Vertrauen</text>
+<rect x="470" y="370" width="250" height="150" class="box warn"/><text x="500" y="410" class="role">PKI-Prüfpunkte</text><text x="500" y="445" class="txt">CRL / CDP</text><text x="500" y="475" class="txt">AIA / OCSP</text><text x="500" y="505" class="txt">Sperrkonfiguration Sperr1</text>
+<line x1="280" y1="155" x2="460" y2="155" class="arrow"/><text x="315" y="135" class="note">AD-Integration</text>
+<line x1="720" y1="150" x2="860" y2="150" class="arrow"/><text x="750" y="130" class="note">Zertifikate / CRL / Web</text>
+<line x1="590" y1="250" x2="590" y2="370" class="arrow"/><text x="610" y="315" class="note">Sperrstatus</text>
+<line x1="860" y1="220" x2="720" y2="420" class="arrow"/><text x="760" y="340" class="note">Validierung</text>
+<text x="40" y="585" class="note">Architektur: Domänenintegrierte PKI mit Enterprise Root CA, Zertifikatverteilung, Webregistrierung und optionalem OCSP.</text></svg>

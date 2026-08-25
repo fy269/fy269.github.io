@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650"><style>
+.bg{fill:#0f172a}.card{fill:#111827;stroke:#38bdf8;stroke-width:2;rx:12}.card2{fill:#172033;stroke:#94a3b8;stroke-width:1.5;rx:10}.title{font:700 24px Arial;fill:#f8fafc}.txt{font:15px Arial;fill:#e5e7eb}.small{font:12px Arial;fill:#cbd5e1}.accent{fill:#38bdf8}.line{stroke:#38bdf8;stroke-width:3}.dash{stroke:#94a3b8;stroke-width:2;stroke-dasharray:6 6}.muted{fill:#94a3b8}</style>
+<rect class="bg" width="1200" height="650"/>
+<text x="60" y="55" class="title">DFS-Namespace, Ordnerziele und Replikation</text>
+<rect x="80" y="105" width="1040" height="80" class="card"/>
+<text x="120" y="155" class="title">\\gfnlab.test\Firmendaten</text>
+<rect x="120" y="260" width="430" height="260" class="card2"/>
+<text x="155" y="300" class="title">Briefe</text>
+<text x="155" y="335" class="txt">\\SERVER1\Briefe</text>
+<text x="155" y="370" class="txt">\\SERVER3\Briefe_Server3</text>
+<text x="155" y="420" class="small">DFS-R: Server1 primär, Server3 Replikat</text>
+<text x="155" y="448" class="small">Referral: standortabhängig</text>
+<rect x="650" y="260" width="430" height="260" class="card2"/>
+<text x="685" y="300" class="title">IT</text>
+<text x="685" y="335" class="txt">\\SERVER1\IT</text>
+<text x="685" y="370" class="txt">\\SERVER3\IT</text>
+<text x="685" y="420" class="small">DFS-R: Server1 primär, Server3 Replikat</text>
+<text x="685" y="448" class="small">Anzeige nur für Domänen-Admins</text>
+<line x1="600" y1="185" x2="335" y2="260" class="dash"/>
+<line x1="600" y1="185" x2="865" y2="260" class="dash"/>
+<text x="90" y="585" class="small">Die Dokumentation trennt Namespace-Sicht, Freigabeberechtigungen, NTFS-/Anzeigeberechtigungen und DFS-R-Replikation.</text>
+</svg>

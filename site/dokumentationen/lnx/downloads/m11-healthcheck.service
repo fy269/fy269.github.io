@@ -1,0 +1,8 @@
+[Unit]
+Description=M11 Healthcheck Service
+
+[Service]
+Type=oneshot
+User=student
+WorkingDirectory=/home/student/linux_m11
+ExecStart=/home/student/linux_m11/scripts/m11_healthcheck.sh

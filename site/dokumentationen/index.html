@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="de" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Technische Dokumentationen</title>
+  <meta name="description" content="Vier technische Dokumentationen zu Windows Server, Homelab, Windows-Clients und Linux-Systemadministration.">
+  <meta name="theme-color" content="#12394a">
+  <script data-doc-theme-bootstrap>
+    (() => {
+      const storageKey = 'ugur-dokumentation-theme';
+      const urlTheme = new URLSearchParams(window.location.search).get('theme');
+      const hasUrlTheme = urlTheme === 'light' || urlTheme === 'dark';
+      let selectedTheme = hasUrlTheme ? urlTheme : null;
+
+      if (!selectedTheme) {
+        try {
+          const savedTheme = window.localStorage.getItem(storageKey);
+          if (savedTheme === 'light' || savedTheme === 'dark') selectedTheme = savedTheme;
+        } catch (_) {}
+      }
+
+      if (!selectedTheme) {
+        selectedTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      document.documentElement.dataset.theme = selectedTheme;
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
+      document.querySelector('meta[name="theme-color"]')?.setAttribute(
+        'content',
+        selectedTheme === 'dark' ? '#0b0f14' : '#12394a'
+      );
+
+      if (hasUrlTheme) {
+        try {
+          window.localStorage.setItem(storageKey, selectedTheme);
+        } catch (_) {}
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="shared/documentation.css">
+</head>
+<body class="documentation-example">
+  <a class="doc-skip-link" href="#inhalt">Zum Inhalt springen</a>
+  <main class="doc-layout" data-doc-layout data-nav-open="true">
+    <button class="doc-nav-backdrop" type="button" data-nav-close aria-label="Navigation schließen"></button>
+    <aside id="doc-sidebar" class="doc-sidebar" aria-label="Dokumentationsnavigation">
+      <div class="doc-sidebar-head">
+        <div><p class="doc-sidebar-kicker">Fachbereiche</p><strong>Technische Dokumentationen</strong></div>
+        <button class="doc-sidebar-close" type="button" data-nav-close aria-label="Navigation schließen"><span aria-hidden="true">×</span></button>
+      </div>
+      <nav class="doc-tree" aria-label="Enthaltene Dokumentationen">
+        <details open>
+          <summary>Dokumente</summary>
+          <div class="doc-tree-group">
+            <a href="wsv/index.html">Windows Server 2022</a>
+            <a href="lf10b/index.html">LF10 Homelab</a>
+            <a href="wcl/index.html">Windows-Clients im Labor</a>
+            <a href="lnx/index.html">Linux-Systemadministration</a>
+          </div>
+        </details>
+      </nav>
+    </aside>
+
+    <section class="doc-stage">
+      <div class="doc-toolbar" aria-label="Dokumentationswerkzeuge">
+        <button class="doc-nav-toggle" type="button" data-nav-toggle aria-controls="doc-sidebar" aria-expanded="true">
+          <span class="doc-nav-toggle-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span data-nav-label>Navigation einklappen</span>
+        </button>
+        <span class="doc-toolbar-context">Dokumentationsübersicht</span>
+        <div class="doc-toolbar-actions">
+          <a class="doc-overview-link" href="../index.html">Zur Website</a>
+          <div class="doc-theme-control" aria-labelledby="doc-theme-label">
+            <span id="doc-theme-label" class="doc-theme-label">Darstellung</span>
+            <div class="doc-theme-options" role="group" aria-label="Farbschema wählen">
+              <button type="button" data-theme-option="light" aria-pressed="false"><span aria-hidden="true">☀</span>Hell</button>
+              <button type="button" data-theme-option="dark" aria-pressed="false"><span aria-hidden="true">◐</span>Dunkel</button>
+            </div>
+            <span class="doc-theme-status" data-theme-status aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+
+      <article id="inhalt" class="doc-article">
+        <header class="doc-document-header">
+          <p class="doc-document-type">Windows Server · Homelab · Windows-Clients · Linux</p>
+          <h1>Technische Dokumentationen</h1>
+          <p class="doc-document-summary">Die vier Dokumentationen zeigen praktische Arbeit mit Servern, Clients, Netzwerken, Speicher, Verzeichnisdiensten, Sicherheitsfunktionen und Automatisierung.</p>
+        </header>
+
+        <section class="doc-section">
+          <div class="doc-section-heading">
+            <p class="doc-section-number" aria-hidden="true">01</p>
+            <div><p class="doc-kicker">Dokumentauswahl</p><h2>Enthaltene Fachbereiche</h2></div>
+          </div>
+          <div class="doc-result-grid">
+            <article class="doc-result-card">
+              <span>WSV</span>
+              <h3>Windows Server 2022</h3>
+              <p>Serveradministration und PowerShell, Virtualisierung, Speicher- und Dateidienste, Netzwerk und Bereitstellung, Active Directory und Gruppenrichtlinien, PKI sowie standortübergreifende Dienste.</p>
+              <p><a href="wsv/index.html">Dokumentation öffnen</a></p>
+            </article>
+            <article class="doc-result-card">
+              <span>LF10B</span>
+              <h3>LF10 Homelab</h3>
+              <p>Netzwerk-, Server-, Speicher-, Web-, Container- und Maildienste in acht zusammenhängenden Clustern.</p>
+              <p><a href="lf10b/index.html">Dokumentation öffnen</a></p>
+            </article>
+            <article class="doc-result-card">
+              <span>WCL</span>
+              <h3>Windows-Clients im Labor</h3>
+              <p>Bereitstellung, Standardisierung, Vernetzung, Speicher, Berechtigungen und Basishärtung.</p>
+              <p><a href="wcl/index.html">Dokumentation öffnen</a></p>
+            </article>
+            <article class="doc-result-card">
+              <span>LNX</span>
+              <h3>Linux-Systemadministration</h3>
+              <p>Linux-Grundlagen, Systemverwaltung, Remotezugriff, Dienste, Scripting und Automatisierung.</p>
+              <p><a href="lnx/index.html">Dokumentation öffnen</a></p>
+            </article>
+          </div>
+        </section>
+      </article>
+    </section>
+  </main>
+  <script src="shared/documentation.js"></script>
+</body>
+</html>

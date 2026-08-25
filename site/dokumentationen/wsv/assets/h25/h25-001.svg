@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650"><style>
+.bg{fill:#0f172a}.card{fill:#111827;stroke:#38bdf8;stroke-width:2;rx:12}.card2{fill:#172033;stroke:#94a3b8;stroke-width:1.5;rx:10}.title{font:700 24px Arial;fill:#f8fafc}.txt{font:15px Arial;fill:#e5e7eb}.small{font:12px Arial;fill:#cbd5e1}.accent{fill:#38bdf8}.line{stroke:#38bdf8;stroke-width:3}.dash{stroke:#94a3b8;stroke-width:2;stroke-dasharray:6 6}.muted{fill:#94a3b8}</style>
+<rect class="bg" width="1200" height="650"/>
+<text x="60" y="55" class="title">Handout 25 - Standort- und Routing-Topologie</text>
+<rect x="70" y="110" width="430" height="360" class="card"/>
+<text x="105" y="150" class="title">Standort Berlin</text>
+<text x="105" y="180" class="small">Subnetz 192.168.1.0/24</text>
+<text x="115" y="230" class="txt">DC - 192.168.1.200</text>
+<text x="115" y="270" class="txt">Server1 - 192.168.1.1</text>
+<text x="115" y="310" class="txt">Server2 Berlin-NIC - 192.168.1.2</text>
+<text x="115" y="350" class="txt">W11 initial - 192.168.1.4</text>
+<rect x="510" y="245" width="180" height="95" class="card2"/>
+<text x="550" y="278" class="txt">Server2</text>
+<text x="535" y="305" class="small">Routing und RAS</text>
+<text x="530" y="325" class="small">Berlin ↔ Hamburg</text>
+<line x1="500" y1="292" x2="510" y2="292" class="line"/>
+<line x1="690" y1="292" x2="710" y2="292" class="line"/>
+<rect x="710" y="110" width="430" height="360" class="card"/>
+<text x="745" y="150" class="title">Standort Hamburg</text>
+<text x="745" y="180" class="small">Subnetz 172.16.1.0/24</text>
+<text x="755" y="235" class="txt">Server2 Hamburg-NIC - 172.16.1.2</text>
+<text x="755" y="275" class="txt">Server3 - 172.16.1.3</text>
+<text x="755" y="315" class="txt">W11 nach Standortwechsel - 172.16.1.4</text>
+<text x="70" y="535" class="txt">Zweck: Simulation zweier Standorte über private Hyper-V-Switches und Routing über Server2.</text>
+<text x="70" y="565" class="small">DNS bleibt zentral über DC 192.168.1.200. Die AD-Subnetze steuern später DFS-Referrals und Standortbezug.</text>
+</svg>
